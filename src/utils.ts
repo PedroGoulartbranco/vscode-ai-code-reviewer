@@ -5,6 +5,7 @@ export async function pedirInputAoUsuario() {
         placeHolder: "Insira sua chave API do Gemini",
         prompt: "O que você quer perguntar?"
     });
+    let chave_real = verifiar_chave(String(input));
     return input;
 }
 

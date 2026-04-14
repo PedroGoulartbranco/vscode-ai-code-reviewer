@@ -17,7 +17,17 @@
         "command": "ai-code-reviewer",
         "title": "Reviewer Code"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "AI Reviewer Configuration",
+      "properties": {
+        "aiReviewer.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Enter your Gemini API Key to enable code review features."
+          }
+      }
+  }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
