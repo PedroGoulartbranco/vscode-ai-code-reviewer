@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "teste",
-        "title": "Hello World"
+        "command": "ai-code-reviewer",
+        "title": "Reviewer Code"
       }
     ]
   },
