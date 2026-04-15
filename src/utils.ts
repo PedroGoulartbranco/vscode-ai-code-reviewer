@@ -23,7 +23,8 @@ function verifiar_chave(chave: string) {
     return formato_chave_api.test(chave);
 }
 
-function pegar_chave_json() {
-    const config = vscode.workspace.getConfiguration('aiReviewer.apiKey');
+export function pegar_chave_json() {
+    const config = vscode.workspace.getConfiguration('aiReviewer');
     const chaveSalva = config.get<string>('apiKey');
+    return String(chaveSalva);
 }
