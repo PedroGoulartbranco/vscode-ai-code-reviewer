@@ -18,7 +18,7 @@ export async function pedirInputAoUsuario() {
     };
 }
 
-function verifiar_chave(chave: string) {
+export function verifiar_chave(chave: string) {
     const formato_chave_api = /^AIza[0-9A-Za-z\-_]{35}$/;
     return formato_chave_api.test(chave);
 }
@@ -27,4 +27,20 @@ export function pegar_chave_json() {
     const config = vscode.workspace.getConfiguration('aiReviewer');
     const chaveSalva = config.get<string>('apiKey');
     return String(chaveSalva);
+}
+
+export async function mensagem_erro_chave(mensagem_erro: string = "Gemini API Key não encontrada!", mensagem_botao: string = "Configurar Agora") {
+    const escolha = await vscode.window.showErrorMessage(
+        mensagem_erro,
+        mensagem_botao 
+    );
+    if (escolha) {
+        //Retorna uma lista [chave, True ou False]
+        const lista_resposta_chave_e_booleano = pedirInputAoUsuario();
+        return lista_resposta_chave_e_booleano;
+    }
+    return {
+        "chave": "",
+        "valido": false
+    };
 }
