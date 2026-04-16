@@ -1,6 +1,6 @@
-import { SchemaType } from "@google/generative-ai";
+import { SchemaType, ResponseSchema } from "@google/generative-ai";
 
-export const molde_json_html = {
+export const molde_json_html: ResponseSchema = {
     type: SchemaType.OBJECT,
     properties: {
         nome_arquiovo: {
