@@ -20,10 +20,10 @@ export const molde_json_html: ResponseSchema = {
             type: SchemaType.OBJECT,
             properties: {
                 semantica: { type: SchemaType.STRING },
-                tags_structure: { type: SchemaType.STRING },
+                tags_estrutura: { type: SchemaType.STRING },
                 estilos: { type: SchemaType.STRING }
             },
-            required: ["semantica", "tags_structure", "estilos"]
+            required: ["semantica", "tags_estrutura", "estilos"]
         },
         sugestoes: {
             type: SchemaType.ARRAY,

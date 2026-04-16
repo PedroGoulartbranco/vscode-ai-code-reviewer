@@ -1,6 +1,8 @@
 import * as vscode from 'vscode'; 
 import * as path from 'path';
 import { Gemini_Bot } from './services/gemini';
+import { template_html } from './templates';
+
 export async function pedirInputAoUsuario() {
     const input = await vscode.window.showInputBox({
         placeHolder: "Insira sua chave API do Gemini",
@@ -70,19 +72,30 @@ export function pegar_arquivo_atual() {
 
 export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
     if (linguagem === "html") {
-        let json_revisao_codigo = await gemini.gerar_revisao_html(codigo, nome_arquivo);
-        mostrar_revisao_html(json_revisao_codigo);
+        await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification, 
+            title: "Gemini Code Reviewer",
+            cancellable: false 
+        }, async (progress) => {
+            progress.report({ message: "Gerando revisão do HTML..." });
+            try {
+                let json_revisao_codigo = await gemini.gerar_revisao_html(codigo, nome_arquivo);
+                
+                mostrar_revisao_html(json_revisao_codigo);
+                
+            } catch (erro) {
+                vscode.window.showErrorMessage("Falha ao gerar revisão.");
+            }
+        });
     };
 }
 
 async function mostrar_revisao_html(revisao_json: any) {
+    const markdown_html = template_html(revisao_json);
     let mostrar = await vscode.workspace.openTextDocument({
-        content: `Nome: ${revisao_json.nome_arquivo}\nLinguagem:HTML`,
+        content: markdown_html,
         language: 'markdown'
     });
 
-    await vscode.window.showTextDocument(mostrar, {
-        preview: false, 
-        viewColumn: vscode.ViewColumn.Beside
-    });
+    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
 }

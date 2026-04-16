@@ -18,7 +18,7 @@ export class Gemini_Bot {
 
     private criar_modelo(schema: ResponseSchema) {
         return this.genAI.getGenerativeModel({ //Configura o modelo
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-flash-lite",
             generationConfig: {
                 responseMimeType: "application/json",
                 responseSchema: schema,
