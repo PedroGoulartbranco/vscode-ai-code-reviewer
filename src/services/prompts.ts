@@ -9,7 +9,7 @@ export const HTML_PROMPT = `
     Deverá retornar EXCLUSIVAMENTE um objeto JSON com a seguinte estrutura:
 
     {
-    "nome_arquivo": "[NOME_DO_ARQUIVO]",
+    "nome_arquivo": "{{NOME_ARQUIVO}}",
     "notas": {
         "semantica": [0-10],
         "organizacao": [0-10],
@@ -26,5 +26,5 @@ export const HTML_PROMPT = `
 
     ---
     Código analisado:
-    [COLOQUE O CÓDIGO AQUI]
+    {{CODIGO}}
 `;
