@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'; 
+import * as path from 'path';
 
 export async function pedirInputAoUsuario() {
     const input = await vscode.window.showInputBox({
@@ -43,4 +44,26 @@ export async function mensagem_erro_chave(mensagem_erro: string = "Gemini API Ke
         "chave": "",
         "valido": false
     };
+}
+
+export function pegar_arquivo_atual() {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+        let nome_documento = editor.document.fileName;
+        nome_documento = path.basename(nome_documento);
+        const codigo = editor.document.getText();
+        const linguagem = editor.document.languageId;
+
+        return {
+            "nome": nome_documento,
+            "codigo": codigo,
+            "linguagem": linguagem
+        };
+    } else {
+        return {
+            "nome": "",
+            "codigo": "",
+            "linguagem": ""
+        };
+    }
 }

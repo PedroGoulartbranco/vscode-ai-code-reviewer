@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'; //Importa a "biblioteca" do VS Code.
-import { pedirInputAoUsuario, pegar_chave_json, verifiar_chave, mensagem_erro_chave} from './utils';
+import { pedirInputAoUsuario, pegar_chave_json, verifiar_chave, mensagem_erro_chave, pegar_arquivo_atual} from './utils';
 import { Chave_gemini } from './services/gemini';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -10,11 +10,18 @@ export function activate(context: vscode.ExtensionContext) {
 			"chave": "",
 			"valido": false
 		};
+		let informacoes_arquivo = {
+			"nome": "",
+			"codigo": "",
+			"linguagem": ""
+		};
+
 		if (!chave) {
 			retorno_verificacoes = await mensagem_erro_chave();
 		} else {
 			if (verifiar_chave(chave)) {
 				const gemini = new Chave_gemini(chave);
+				retorno_verificacoes = {"chave": gemini.chave_string, "valido": true};
 			} else {
 				retorno_verificacoes = await mensagem_erro_chave("Chave API incorreta", "Configurar Novamente");
 			}
@@ -23,8 +30,15 @@ export function activate(context: vscode.ExtensionContext) {
 		if (retorno_verificacoes.valido) {
 			await config.update('apiKey', retorno_verificacoes.chave, vscode.ConfigurationTarget.Global);
     		vscode.window.showInformationMessage("Chave salva com sucesso!");
+
+			informacoes_arquivo = pegar_arquivo_atual();
+
+			if (informacoes_arquivo.nome) {
+				vscode.window.showInformationMessage(`Nome: ${informacoes_arquivo.nome}, Linguagem: ${informacoes_arquivo.linguagem}`);
+			} else {
+				vscode.window.showInformationMessage("Nenhum arquivo aberto no momento");
+			}
 		}
-		//vscode.window.showInformationMessage('');
 	}
 
 );
