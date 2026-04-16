@@ -1,3 +1,5 @@
+import { HTML_PROMPT } from './prompts';
+
 export class Chave_gemini {
     private chave: string;
 

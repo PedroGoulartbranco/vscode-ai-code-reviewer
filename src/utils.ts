@@ -67,3 +67,15 @@ export function pegar_arquivo_atual() {
         };
     }
 }
+
+export async function criar_janela_documento(nome_arquivo: string, linguagem: string) {
+    let informacoes_documento = await vscode.workspace.openTextDocument({
+        content: `Nome: ${nome_arquivo}\nLinguagem:${linguagem}`,
+        language: 'markdown'
+    });
+
+    await vscode.window.showTextDocument(informacoes_documento, {
+        preview: false, 
+        viewColumn: vscode.ViewColumn.Beside
+    });
+}
