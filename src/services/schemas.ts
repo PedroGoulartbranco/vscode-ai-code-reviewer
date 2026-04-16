@@ -3,11 +3,11 @@ import { SchemaType, ResponseSchema } from "@google/generative-ai";
 export const molde_json_html: ResponseSchema = {
     type: SchemaType.OBJECT,
     properties: {
-        nome_arquiovo: {
+        nome_arquivo: {
             type: SchemaType.STRING,
             description: "Nome do arquivo analisado"
         },
-        nota: {
+        notas: {
             type: SchemaType.OBJECT,
             properties: {
                 semantica: { type: SchemaType.NUMBER },

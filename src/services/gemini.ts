@@ -33,11 +33,12 @@ export class Gemini_Bot {
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo);
             const modelo = this.criar_modelo(molde_json_html);
-            const resultado = await modelo.generateContent(HTML_PROMPT);
-
+            const resultado = await modelo.generateContent(prompt_final);
+            console.log(resultado.response.text());
             return JSON.parse(resultado.response.text());
         } catch (erro) {
-            vscode.window.showInformationMessage("Erro na hora de gerar resposta");
+            console.log("ERRO COMPLETO:", erro);
+            vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
             throw erro;
         }
     }

@@ -68,16 +68,20 @@ export function pegar_arquivo_atual() {
     }
 }
 
-export async function criar_janela_documento(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
+export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
     if (linguagem === "html") {
-        let revisao_codigo =  gemini.gerar_revisao_html(codigo, nome_arquivo);
+        let json_revisao_codigo = await gemini.gerar_revisao_html(codigo, nome_arquivo);
+        mostrar_revisao_html(json_revisao_codigo);
     };
-    let informacoes_documento = await vscode.workspace.openTextDocument({
-        content: `Nome: ${nome_arquivo}\nLinguagem:${linguagem}`,
+}
+
+async function mostrar_revisao_html(revisao_json: any) {
+    let mostrar = await vscode.workspace.openTextDocument({
+        content: `Nome: ${revisao_json.nome_arquivo}\nLinguagem:HTML`,
         language: 'markdown'
     });
 
-    await vscode.window.showTextDocument(informacoes_documento, {
+    await vscode.window.showTextDocument(mostrar, {
         preview: false, 
         viewColumn: vscode.ViewColumn.Beside
     });

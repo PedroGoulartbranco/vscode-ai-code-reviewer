@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'; //Importa a "biblioteca" do VS Code.
-import { pedirInputAoUsuario, pegar_chave_json, verifiar_chave, mensagem_erro_chave, pegar_arquivo_atual, criar_janela_documento} from './utils';
+import { pedirInputAoUsuario, pegar_chave_json, verifiar_chave, mensagem_erro_chave, pegar_arquivo_atual, decidir_modelo_de_resposta} from './utils';
 import { Gemini_Bot } from './services/gemini';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -35,8 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 			informacoes_arquivo = pegar_arquivo_atual();
 
 			if (informacoes_arquivo.nome) {
-				const json_resultado = gemini.gerar_revisao_html(informacoes_arquivo.codigo, informacoes_arquivo.nome);
-				criar_janela_documento(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini);
+				decidir_modelo_de_resposta(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini);
 			} else {
 				vscode.window.showInformationMessage("Nenhum arquivo aberto no momento");
 			}
