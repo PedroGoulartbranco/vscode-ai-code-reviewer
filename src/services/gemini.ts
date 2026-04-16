@@ -1,5 +1,5 @@
 import { HTML_PROMPT } from './prompts';
-import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
+import { GoogleGenerativeAI, GenerativeModel, SchemaType } from "@google/generative-ai";
 import * as vscode from 'vscode';
 
 export class Gemini_Bot {
@@ -26,6 +26,9 @@ export class Gemini_Bot {
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo);
             const resultado = await this.modelo.generateContent(HTML_PROMPT);
+            let texto_puro = resultado.response.text();
+
+
             return JSON.parse(resultado.response.text());
         } catch (erro) {
             vscode.window.showInformationMessage("Erro na hora de gerar resposta");

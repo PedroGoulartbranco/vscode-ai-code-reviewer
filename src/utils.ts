@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'; 
 import * as path from 'path';
-
+import { Gemini_Bot } from './services/gemini';
 export async function pedirInputAoUsuario() {
     const input = await vscode.window.showInputBox({
         placeHolder: "Insira sua chave API do Gemini",
@@ -68,7 +68,10 @@ export function pegar_arquivo_atual() {
     }
 }
 
-export async function criar_janela_documento(nome_arquivo: string, linguagem: string) {
+export async function criar_janela_documento(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
+    if (linguagem === "html") {
+        let revisao_codigo =  gemini.gerar_revisao_html(codigo, nome_arquivo);
+    };
     let informacoes_documento = await vscode.workspace.openTextDocument({
         content: `Nome: ${nome_arquivo}\nLinguagem:${linguagem}`,
         language: 'markdown'

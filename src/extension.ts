@@ -36,10 +36,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 			if (informacoes_arquivo.nome) {
 				const json_resultado = gemini.gerar_revisao_html(informacoes_arquivo.codigo, informacoes_arquivo.nome);
-				criar_janela_documento(informacoes_arquivo.nome, informacoes_arquivo.linguagem);
+				criar_janela_documento(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini);
 			} else {
 				vscode.window.showInformationMessage("Nenhum arquivo aberto no momento");
 			}
+		} else {
+			vscode.window.showInformationMessage("Chave incorreta tente novamente");
 		}
 	}
 
