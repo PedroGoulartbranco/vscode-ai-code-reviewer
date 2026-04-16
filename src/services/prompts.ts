@@ -6,6 +6,12 @@ export const HTML_PROMPT = `
     3. ESTILIZAÇÃO: Presença de CSS inline (atributo style) ou tags <style> no body.
     4. ORGANIZAÇÃO: Indentação e legibilidade.
 
+    REGRAS DE FORMATAÇÃO OBRIGATÓRIAS:
+    - NUNCA escreva tags HTML puras como <header> ou <div>.
+    - SEMPRE envolva qualquer tag ou código em backticks (crases). 
+    Exemplo correto: \`<h1>\`, \`<main>\`, \`<div>\`.
+    - Isso é vital para que o parser de Markdown não oculte o conteúdo.
+
     Deverá retornar EXCLUSIVAMENTE um objeto JSON com a seguinte estrutura:
 
     {

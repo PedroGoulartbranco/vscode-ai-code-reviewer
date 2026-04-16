@@ -1,30 +1,31 @@
+import {cor_emoji_nota} from './utils';
+
 export function template_html(dados: any)  {
-    // Transformando a lista de sugestões em string
-    const listaSugestoes = dados.sugestoes.map((s: string) => `🟢 ${s}`).join('\n');
+    const listaSugestoes = dados.sugestoes
+        .map((s: string) => `- ${s.trim()}`)
+        .join('\n');
 
     return `
 # 🛡️ Code Review: \`${dados.nome_arquivo}\`
 
-## 💹 Status da Análise
-> [!TIP]
-> **Avaliação de Qualidade:** Abaixo estão as notas baseadas nos pilares de desenvolvimento.
-
-🟢 **Semântica:** ${dados.notas.semantica}/10
-🟢 **Organização:** ${dados.notas.organizacao}/10
-🟢 **Boas Práticas:** ${dados.notas.boas_praticas}/10
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Semântica** | ${dados.notas.semantica}/10 | ${cor_emoji_nota(dados.notas.semantica)} |
+| **Organização** | ${dados.notas.organizacao}/10 | ${cor_emoji_nota(dados.notas.organizacao)} |
+| **Boas Práticas** | ${dados.notas.boas_praticas}/10 | ${cor_emoji_nota(dados.notas.boas_praticas)} |
 
 ---
 
-## 🔍 O que foi analisado?
+## 🔍 Análise Detalhada
 
-### 🏗️ Semântica
-${dados.analise_detalhada.semantica}
+### 🏗️ Semântica e Estrutura
+${dados.analise_detalhada.semantica.trim()}
 
 ### 🏷️ Estrutura de Tags
-${dados.analise_detalhada.tags_estrutura}
+${dados.analise_detalhada.tags_estrutura.trim()}
 
 ### 🎨 Estilização
-${dados.analise_detalhada.estilos}
+${dados.analise_detalhada.estilos.trim()}
 
 ---
 
@@ -32,11 +33,6 @@ ${dados.analise_detalhada.estilos}
 ${listaSugestoes}
 
 ---
-
-## 📝 Relatório Completo do Gemini
-${dados.relatorio_formatado}
-
----
-_Gerado por **Gemini Code Reviewer**_ ♟️
+_Gerado por Gemini Code Reviewer_ ♟️
 `.trim();
 };

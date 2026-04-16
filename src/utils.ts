@@ -99,3 +99,13 @@ async function mostrar_revisao_html(revisao_json: any) {
 
     await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
 }
+
+export function cor_emoji_nota(nota: number) {
+    if (nota >= 7) {
+        return "🟢";
+    } else if (nota >= 5) {
+        return "⚠️";
+    } else {
+        return "❌";
+    }
+}
