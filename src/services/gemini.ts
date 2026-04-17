@@ -36,10 +36,15 @@ export class Gemini_Bot {
             const resultado = await modelo.generateContent(prompt_final);
             console.log(resultado.response.text());
             return JSON.parse(resultado.response.text());
-        } catch (erro) {
+        } catch (erro: any) {
             console.log("ERRO COMPLETO:", erro);
-            vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
-            throw erro;
+            if (erro.status === 429) {
+                vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
+            } else if (erro.status >= 500) {
+                vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
+            } else {
+                vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
+            }
         }
     }
 }

@@ -109,3 +109,12 @@ export function cor_emoji_nota(nota: number) {
         return "❌";
     }
 }
+
+export function calcular_media(lista_notas: number[]) {
+    const numero_notas = lista_notas.length;
+    let soma = 0;
+    for (let i: number = 0; i < numero_notas; i ++) {
+        soma += lista_notas[i];
+    }
+    return soma / numero_notas;
+}

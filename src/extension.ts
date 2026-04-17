@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		if (retorno_verificacoes.valido) {
 			await config.update('apiKey', retorno_verificacoes.chave, vscode.ConfigurationTarget.Global);
-    		vscode.window.showInformationMessage("Chave salva com sucesso!");
+    		//vscode.window.showInformationMessage("Chave salva com sucesso!");
 			const gemini = new Gemini_Bot(chave);
 
 			informacoes_arquivo = pegar_arquivo_atual();
