@@ -1,4 +1,5 @@
-import {cor_emoji_nota, calcular_media} from './utils';
+import { calcular_media} from './utils';
+import { cor_emoji_nota } from './ui-utils';
 
 export function template_html(dados: any)  {
     const listaSugestoes = dados.sugestoes

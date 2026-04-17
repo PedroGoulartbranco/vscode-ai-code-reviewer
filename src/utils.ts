@@ -1,51 +1,13 @@
-import * as vscode from 'vscode'; 
+import * as vscode from 'vscode';
 import * as path from 'path';
-import { Gemini_Bot } from './services/gemini';
-import { template_css, template_html } from './templates';
 
-export async function pedirInputAoUsuario() {
-    const input = await vscode.window.showInputBox({
-        placeHolder: "Insira sua chave API do Gemini",
-        prompt: "O que você quer perguntar?"
-    });
-    if (!input) {
-        return {
-            "chave": "",
-            "valido": false
-        };
+export function calcular_media(lista_notas: number[]) {
+    const numero_notas = lista_notas.length;
+    let soma = 0;
+    for (let i: number = 0; i < numero_notas; i ++) {
+        soma += lista_notas[i];
     }
-    let chave_correta = verifiar_chave(String(input));
-    return {
-        "chave": input,
-        "valido": chave_correta
-    };
-}
-
-export function verifiar_chave(chave: string) {
-    const formato_chave_api = /^AIza[0-9A-Za-z\-_]{35}$/;
-    return formato_chave_api.test(chave);
-}
-
-export function pegar_chave_json() {
-    const config = vscode.workspace.getConfiguration('aiReviewer');
-    const chaveSalva = config.get<string>('apiKey');
-    return String(chaveSalva);
-}
-
-export async function mensagem_erro_chave(mensagem_erro: string = "Gemini API Key não encontrada!", mensagem_botao: string = "Configurar Agora") {
-    const escolha = await vscode.window.showErrorMessage(
-        mensagem_erro,
-        mensagem_botao 
-    );
-    if (escolha) {
-        //Retorna uma lista [chave, True ou False]
-        const lista_resposta_chave_e_booleano = pedirInputAoUsuario();
-        return lista_resposta_chave_e_booleano;
-    }
-    return {
-        "chave": "",
-        "valido": false
-    };
+    return soma / numero_notas;
 }
 
 export function pegar_arquivo_atual() {
@@ -70,77 +32,47 @@ export function pegar_arquivo_atual() {
     }
 }
 
-export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
-    if (linguagem === "html") {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification, 
-            title: "Gemini Code Reviewer",
-            cancellable: false 
-        }, async (progress) => {
-            progress.report({ message: "Gerando revisão do HTML..." });
-            try {
-                let json_revisao_codigo = await gemini.gerar_revisao_html(codigo, nome_arquivo);
-                
-                mostrar_revisao_html(json_revisao_codigo);
-                
-            } catch (erro) {
-                vscode.window.showErrorMessage("Falha ao gerar revisão.");
-            }
-        });
-    } else if (linguagem === "css") {
-        await vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification, 
-            title: "Gemini Code Reviewer",
-            cancellable: false 
-        }, async (progress) => {
-            progress.report({ message: "Gerando revisão do CSS..." });
-            try {
-                let json_revisao_codigo = await gemini.gerar_revisao_css(codigo, nome_arquivo);
-                
-                mostrar_revisao_css(json_revisao_codigo);
-                
-            } catch (erro) {
-                vscode.window.showErrorMessage("Falha ao gerar revisão.");
-            }
-        });
-    }
+export function verifiar_chave(chave: string) {
+    const formato_chave_api = /^AIza[0-9A-Za-z\-_]{35}$/;
+    return formato_chave_api.test(chave);
 }
 
-async function mostrar_revisao_html(revisao_json: any) {
-    const markdown_html = template_html(revisao_json);
-    let mostrar = await vscode.workspace.openTextDocument({
-        content: markdown_html,
-        language: 'markdown'
+export function pegar_chave_json() {
+    const config = vscode.workspace.getConfiguration('aiReviewer');
+    const chaveSalva = config.get<string>('apiKey');
+    return String(chaveSalva);
+}
+
+export async function pedirInputAoUsuario() {
+    const input = await vscode.window.showInputBox({
+        placeHolder: "Insira sua chave API do Gemini",
+        prompt: "O que você quer perguntar?"
     });
-
-    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
-}
-
-async function mostrar_revisao_css(revisao_json: any) {
-    const markdown_css = template_css(revisao_json);
-    let mostrar = await vscode.workspace.openTextDocument({
-        content: markdown_css,
-        language: 'markdown'
-    });
-
-    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
-}
-
-export function cor_emoji_nota(nota: number) {
-    if (nota >= 7) {
-        return "🟢";
-    } else if (nota >= 5) {
-        return "⚠️";
-    } else {
-        return "❌";
+    if (!input) {
+        return {
+            "chave": "",
+            "valido": false
+        };
     }
+    let chave_correta = verifiar_chave(String(input));
+    return {
+        "chave": input,
+        "valido": chave_correta
+    };
 }
 
-export function calcular_media(lista_notas: number[]) {
-    const numero_notas = lista_notas.length;
-    let soma = 0;
-    for (let i: number = 0; i < numero_notas; i ++) {
-        soma += lista_notas[i];
+export async function mensagem_erro_chave(mensagem_erro: string = "Gemini API Key não encontrada!", mensagem_botao: string = "Configurar Agora") {
+    const escolha = await vscode.window.showErrorMessage(
+        mensagem_erro,
+        mensagem_botao 
+    );
+    if (escolha) {
+        //Retorna uma lista [chave, True ou False]
+        const lista_resposta_chave_e_booleano = pedirInputAoUsuario();
+        return lista_resposta_chave_e_booleano;
     }
-    return soma / numero_notas;
+    return {
+        "chave": "",
+        "valido": false
+    };
 }

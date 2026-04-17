@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'; //Importa a "biblioteca" do VS Code.
-import { pedirInputAoUsuario, pegar_chave_json, verifiar_chave, mensagem_erro_chave, pegar_arquivo_atual, decidir_modelo_de_resposta} from './utils';
+import { decidir_modelo_de_resposta} from './engine';
+import { pegar_arquivo_atual, verifiar_chave, pegar_chave_json, pedirInputAoUsuario, mensagem_erro_chave } from './utils';
 import { Gemini_Bot } from './services/gemini';
 
 export function activate(context: vscode.ExtensionContext) {
