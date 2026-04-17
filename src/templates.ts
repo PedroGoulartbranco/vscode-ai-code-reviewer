@@ -42,3 +42,65 @@ ${listaSugestoes}
 _Gerado por Gemini Code Reviewer_ ♟️
 `.trim();
 };
+
+export function template_css(dados: any) {
+    // Processamento das listas
+    const listaSugestoes = dados.sugestoes_refatoracao
+        .map((s: string) => `- 💡 ${s.trim()}`)
+        .join('\n');
+
+    const listaSmells = dados.code_smells_encontrados
+        .map((s: string) => `- 🚨 ${s.trim()}`)
+        .join('\n');
+
+    const notasParaMedia = [
+        dados.notas.arquitetura,
+        dados.notas.manutenibilidade,
+        dados.notas.especificidade,
+        dados.notas.responsividade
+    ];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const usaVar = dados.metricas_css.usa_variaveis ? "Sim ✅" : "Não ❌";
+
+    return `
+# 🎨 Code Review CSS: \`${dados.nome_arquivo}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Arquitetura** | ${dados.notas.arquitetura}/10 | ${cor_emoji_nota(dados.notas.arquitetura)} |
+| **Manutenibilidade** | ${dados.notas.manutenibilidade}/10 | ${cor_emoji_nota(dados.notas.manutenibilidade)} |
+| **Especificidade** | ${dados.notas.especificidade}/10 | ${cor_emoji_nota(dados.notas.especificidade)} |
+| **Responsividade** | ${dados.notas.responsividade}/10 | ${cor_emoji_nota(dados.notas.responsividade)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas Técnicas
+- **Uso de \`!important\`:** ${dados.metricas_css.qtd_important} ocorrência(s)
+- **Profundidade de Seletores:** Máximo de ${dados.metricas_css.profundidade_maxima} níveis
+- **Usa Variáveis CSS:** ${usaVar}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🏗️ Arquitetura e Seletores
+${dados.analise_detalhada.arquitetura_e_seletores.trim()}
+
+### 🛠️ Boas Práticas e Reuso
+${dados.analise_detalhada.boas_praticas_e_reuso.trim()}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells || "_Nenhum problema grave detectado._"}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer_ ♟️
+`.trim();
+}

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'; 
 import * as path from 'path';
 import { Gemini_Bot } from './services/gemini';
-import { template_html } from './templates';
+import { template_css, template_html } from './templates';
 
 export async function pedirInputAoUsuario() {
     const input = await vscode.window.showInputBox({
@@ -87,13 +87,39 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
                 vscode.window.showErrorMessage("Falha ao gerar revisão.");
             }
         });
-    };
+    } else if (linguagem === "css") {
+        await vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification, 
+            title: "Gemini Code Reviewer",
+            cancellable: false 
+        }, async (progress) => {
+            progress.report({ message: "Gerando revisão do CSS..." });
+            try {
+                let json_revisao_codigo = await gemini.gerar_revisao_css(codigo, nome_arquivo);
+                
+                mostrar_revisao_css(json_revisao_codigo);
+                
+            } catch (erro) {
+                vscode.window.showErrorMessage("Falha ao gerar revisão.");
+            }
+        });
+    }
 }
 
 async function mostrar_revisao_html(revisao_json: any) {
     const markdown_html = template_html(revisao_json);
     let mostrar = await vscode.workspace.openTextDocument({
         content: markdown_html,
+        language: 'markdown'
+    });
+
+    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
+}
+
+async function mostrar_revisao_css(revisao_json: any) {
+    const markdown_css = template_css(revisao_json);
+    let mostrar = await vscode.workspace.openTextDocument({
+        content: markdown_css,
         language: 'markdown'
     });
 
