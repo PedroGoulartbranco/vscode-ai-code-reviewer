@@ -1,5 +1,5 @@
 {
-  "name": "ai-code-reviewer",
+  "name": "vscode-ai-code-reviewer",
   "displayName": "ai-code-reviewer",
   "description": "An AI-powered code reviewer that identifies bugs and suggests optimizations.",
   "version": "0.0.1",

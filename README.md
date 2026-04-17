@@ -1,71 +1,37 @@
-# ai-code-reviewer README
+# 🤖 vscode-ai-code-reviewer (VS Code Extension)
 
-This is the README for your extension "ai-code-reviewer". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension named **AI Code Reviewer** that transforms your editor into a high-level Pair Programming partner.
 
-## Features
+> ⚠️ **Status:** Under active development (Work In Progress 🚧). The source code is being built and refactored daily.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Leveraging the power of the **Google Gemini API**, this extension acts as a Senior Software Engineer, performing automated and structured Code Reviews directly within your development environment.
 
-For example if there is an image subfolder under your extension project workspace:
+## ✨ Features (Already Implemented)
 
-\!\[feature X\]\(images/feature-x.png\)
+Although in its early stages, the core engine already includes:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+* **Intelligent Analysis (HTML/CSS):** Deep evaluation of Semantics, Syntax, Styling (inline CSS detection), and Code Organization.
+* **Markdown Dashboard:** Generation of rich visual reports side-by-side (`showPreviewToSide`), featuring a highlighted **General Score** and categorized feedback.
+* **Prompt Shielding (Security First):** Active defense against *Prompt Injection* attacks (malicious comments within code attempting to bypass the grading system).
+* **API Resilience:** Intelligent handling of request limits (HTTP 429 - *Rate Limit*), ensuring the extension notifies the user gracefully instead of failing.
 
-## Requirements
+## 🚀 Roadmap
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- [x] Generative API Integration
+- [x] Scoring system and average calculation logic
+- [x] Prompt Injection prevention
+- [ ] Dynamic User API Key configuration (`contributes.configuration`)
+- [ ] Model selection (e.g., `gemini-1.5-flash` vs `flash-lite`)
+- [ ] VS Code Marketplace publication
 
-## Extension Settings
+## ⚙️ Local Setup
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+*(Installation instructions via `.vsix` will be added once the first beta version is finalized).*
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+To run the project locally for development:
+1. Clone the repository.
+2. Run `npm install`.
+3. Press `F5` in VS Code to launch the **Extension Development Host** window.
 
 ---
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+*Developed with TypeScript and Artificial Intelligence.* ♟️🚀
