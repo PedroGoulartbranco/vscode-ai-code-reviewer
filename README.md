@@ -17,12 +17,17 @@ Although in its early stages, the core engine already includes:
 
 ## 🚀 Roadmap
 
-- [x] Generative API Integration
-- [x] Scoring system and average calculation logic
-- [x] Prompt Injection prevention
-- [ ] Dynamic User API Key configuration (`contributes.configuration`)
-- [ ] Model selection (e.g., `gemini-1.5-flash` vs `flash-lite`)
-- [ ] VS Code Marketplace publication
+## 🚀 Roadmap
+
+- [x] **Generative API Integration:** Core engine connected to Google Gemini.
+- [x] **Smart Scoring System:** Logic for automated grading and average calculation.
+- [x] **Prompt Firewall:** Security layer against Prompt Injection and unauthorized commands.
+- [x] **API Key Configuration:** Secure user-defined key storage via VS Code settings.
+- [x] **HTML Analysis:** Full support for semantic and structural HTML review.
+- [ ] **CSS Styling Review:** Dedicated analysis for layout, responsiveness, and best practices.
+- [ ] **Multi-language Support:** Expanding reviews to JavaScript, TypeScript, and Python.
+- [ ] **Model Selection:** Toggle between different models (e.g., `gemini-2.5-flash` vs `flash-lite`).
+- [ ] **VS Code Marketplace Publication:** Official release for the developer community.
 
 ## ⚙️ Local Setup
 
