@@ -105,3 +105,68 @@ ${listaSugestoes}
 _Gerado por Gemini Code Reviewer_ ♟️
 `.trim();
 }
+
+export function template_python(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.pep8_compliance || 0,
+        dados.notas?.logica_e_eficiencia || 0,
+        dados.notas?.modularizacao || 0,
+        dados.notas?.tratamento_erros || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    // 3. Verificação segura de métricas
+    const usaTypeHints = dados.metricas_python?.usa_type_hints ? "Sim ✅" : "Não ❌";
+    const compCiclomatica = dados.metricas_python?.complexidade_ciclomatica || "Não avaliada";
+    const loops = dados.metricas_python?.qtd_loops_aninhados ?? 0;
+
+    return `
+# 🐍 Code Review Python: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **PEP8 Compliance** | ${dados.notas?.pep8_compliance || 0}/10 | ${cor_emoji_nota(dados.notas?.pep8_compliance || 0)} |
+| **Lógica e Eficiência** | ${dados.notas?.logica_e_eficiencia || 0}/10 | ${cor_emoji_nota(dados.notas?.logica_e_eficiencia || 0)} |
+| **Modularização** | ${dados.notas?.modularizacao || 0}/10 | ${cor_emoji_nota(dados.notas?.modularizacao || 0)} |
+| **Tratamento de Erros** | ${dados.notas?.tratamento_erros || 0}/10 | ${cor_emoji_nota(dados.notas?.tratamento_erros || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas Técnicas
+- **Complexidade Ciclomática:** ${compCiclomatica}
+- **Loops Aninhados (Máx):** ${loops} nível(is)
+- **Usa Type Hints:** ${usaTypeHints}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🐍 Pythonic Code
+${dados.analise_detalhada?.pythonic_code?.trim() || "_Análise de estilo não disponível._"}
+
+### 🛡️ Segurança e Tratamento de Erros
+${dados.analise_detalhada?.seguranca_e_erros?.trim() || "_Análise de segurança não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer_ ♟️
+`.trim();
+}

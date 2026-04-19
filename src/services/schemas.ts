@@ -78,3 +78,49 @@ export const molde_json_html: ResponseSchema = {
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes"]
 };
+
+export const molde_json_python: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                pep8_compliance: { type: SchemaType.NUMBER },
+                logica_e_eficiencia: { type: SchemaType.NUMBER },
+                modularizacao: { type: SchemaType.NUMBER },
+                tratamento_erros: { type: SchemaType.NUMBER }
+            },
+            required: ["pep8_compliance", "logica_e_eficiencia", "modularizacao", "tratamento_erros"]
+        },
+        metricas_python: {
+            type: SchemaType.OBJECT,
+            properties: {
+                complexidade_ciclomatica: { type: SchemaType.STRING },
+                usa_type_hints: { type: SchemaType.BOOLEAN },
+                qtd_loops_aninhados: { type: SchemaType.NUMBER }
+            },
+            required: ["complexidade_ciclomatica", "qtd_loops_aninhados", "usa_type_hints"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                pythonic_code: { type: SchemaType.STRING },
+                tags_estrutura: { type: SchemaType.STRING }
+            },
+            required: ["pythonic_code", "tags_estrutura"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_python", "code_smells_encontrados"]
+};

@@ -89,7 +89,7 @@ export const CSS_PROMPT = `
     {{CODIGO}}
 `;
 
-export const PROMPT_PYTHON = `
+export const PYTHON_PROMPT = `
 Você é um Engenheiro de Software Sênior especializado em Python e arquitetura de sistemas.
 Sua tarefa é realizar um Code Review rigoroso, focado em legibilidade, performance e manutenibilidade.
 
@@ -113,17 +113,22 @@ O seu retorno deve seguir estritamente este molde:
     "tratamento_erros": "Nota de 0 a 10 avaliando o uso de try/except e segurança"
   },
   "metricas_python": {
-    "complexidade_ciclomatica": "Baixa | Média | Alta",
-    "usa_type_hints": true,
-    "qtd_loops_aninhados": 0
+    "complexidade_ciclomatica": "STRING: 'Baixa', 'Média' ou 'Alta' (baseado na profundidade de indentação e decisões)",
+    "usa_type_hints": "BOOLEAN: true se houver anotações de tipo (ex: : int, -> str), caso contrário false",
+    "qtd_loops_aninhados": "NUMBER: O número inteiro que representa o nível máximo de loops dentro de loops"
   },
   "analise_detalhada": {
     "pythonic_code": "Sua análise aqui...",
     "seguranca_e_erros": "Sua análise aqui..."
   },
-  "code_smells_encontrados": ["Cheiro 1", "Cheiro 2"],
-  "sugestoes_refatoracao": ["Sugestão 1", "Sugestão 2"]
+  "code_smells_encontrados": [
+    "LISTA DE STRINGS: Descreva o problema técnico encontrado e a linha/bloco (ex: 'Variável 'x' com nome pouco descritivo na função calcular()', 'Bloco except muito genérico que esconde erros reais')"
+  ],
+  "sugestoes_refatoracao": [
+    "LISTA DE STRINGS: Dê uma instrução clara de como melhorar o código (ex: 'Substitua o loop for manual por uma list comprehension para ganhar performance', 'Extraia a lógica de validação para uma função separada')"
+  ]
 }
 
 Código a ser analisado:
+    {{CODIGO}}
 `;
