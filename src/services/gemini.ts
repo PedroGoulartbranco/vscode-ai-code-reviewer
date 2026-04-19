@@ -2,6 +2,7 @@ import { HTML_PROMPT, CSS_PROMPT } from './prompts';
 import { GoogleGenerativeAI, GenerativeModel, ResponseSchema } from "@google/generative-ai";
 import * as vscode from 'vscode';
 import {  molde_json_css, molde_json_html } from './schemas';
+import { mostrar_erro } from '../ui-utils';
 
 export class Gemini_Bot {
     private chave: string;
@@ -36,14 +37,7 @@ export class Gemini_Bot {
             const resultado = await modelo.generateContent(prompt_final);
             return JSON.parse(resultado.response.text());
         } catch (erro: any) {
-            console.log("ERRO COMPLETO:", erro);
-            if (erro.status === 429) {
-                vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
-            } else if (erro.status >= 500) {
-                vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
-            } else {
-                vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
-            }
+            mostrar_erro(erro);
         }
     }
     async gerar_revisao_css(codigo: string, nome_arquivo: string) {
@@ -55,14 +49,7 @@ export class Gemini_Bot {
             const resultado = await modelo.generateContent(prompt_final);
             return JSON.parse(resultado.response.text());
         } catch (erro: any) {
-            console.log("ERRO COMPLETO:", erro);
-            if (erro.status === 429) {
-                vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
-            } else if (erro.status >= 500) {
-                vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
-            } else {
-                vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
-            }
+            mostrar_erro(erro);
         }
     }
 }

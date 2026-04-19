@@ -30,3 +30,14 @@ export async function mostrar_revisao_css(revisao_json: any) {
 
     await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
 }
+
+export function mostrar_erro(erro: any) {
+    console.log("ERRO COMPLETO:", erro);
+    if (erro.status === 429) {
+        vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
+    } else if (erro.status >= 500) {
+        vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
+    } else {
+        vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
+    }
+}
