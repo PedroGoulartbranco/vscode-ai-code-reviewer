@@ -24,7 +24,7 @@ Although in its early stages, the core engine already includes:
 - [x] **Prompt Firewall:** Security layer against Prompt Injection and unauthorized commands.
 - [x] **API Key Configuration:** Secure user-defined key storage via VS Code settings.
 - [x] **HTML Analysis:** Full support for semantic and structural HTML review.
-- [ ] **CSS Styling Review:** Dedicated analysis for layout, responsiveness, and best practices.
+- [x] **CSS Styling Review:** Dedicated analysis for layout, responsiveness, and best practices.
 - [ ] **Multi-language Support:** Expanding reviews to JavaScript, TypeScript, and Python.
 - [ ] **Model Selection:** Toggle between different models (e.g., `gemini-2.5-flash` vs `flash-lite`).
 - [ ] **VS Code Marketplace Publication:** Official release for the developer community.
