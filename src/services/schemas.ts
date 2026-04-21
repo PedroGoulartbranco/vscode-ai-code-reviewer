@@ -168,5 +168,51 @@ export const molde_json_javascript: ResponseSchema = {
             items: { type: SchemaType.STRING }
         }
     },
-    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_python", "code_smells_encontrados"]
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_js", "code_smells_encontrados"]
+};
+
+export const molde_json_typescript: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                clean_code: { type: SchemaType.NUMBER },
+                seguranca_tipos: { type: SchemaType.NUMBER },
+                modularizacao: { type: SchemaType.NUMBER },
+                seguranca: { type: SchemaType.NUMBER }
+            },
+            required: ["clean_code", "seguranca_tipos", "modularizacao", "seguranca"]
+        },
+        metricas_ts: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_any: { type: SchemaType.BOOLEAN },
+                usa_interfaces: { type: SchemaType.BOOLEAN },
+                complexidade_ciclomatica: { type: SchemaType.STRING }
+            },
+            required: ["usa_any", "usa_interfaces", "complexidade_ciclomatica"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                type_system_analysis: { type: SchemaType.STRING },
+                async_error_handling: { type: SchemaType.STRING }
+            },
+            required: ["type_system_analysis", "async_error_handling"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_ts", "code_smells_encontrados"]
 };
