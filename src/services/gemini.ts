@@ -1,7 +1,7 @@
-import { HTML_PROMPT, CSS_PROMPT, PYTHON_PROMPT} from './prompts';
+import { HTML_PROMPT, CSS_PROMPT, PYTHON_PROMPT, JAVASCRIPT_PROMPT} from './prompts';
 import { GoogleGenerativeAI, GenerativeModel, ResponseSchema } from "@google/generative-ai";
 import * as vscode from 'vscode';
-import {  molde_json_css, molde_json_html, molde_json_python } from './schemas';
+import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript } from './schemas';
 import { mostrar_erro } from '../ui-utils';
 
 export class Gemini_Bot {
@@ -58,6 +58,18 @@ export class Gemini_Bot {
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo);
             const modelo = this.criar_modelo(molde_json_python);
+            const resultado = await modelo.generateContent(prompt_final);
+            return JSON.parse(resultado.response.text());
+        } catch (erro: any) {
+            mostrar_erro(erro);
+        }
+    }
+    async gerar_revisao_javascript(codigo: string, nome_arquivo: string) {
+        try {
+            const prompt_final = JAVASCRIPT_PROMPT
+                .replace('{{NOME_ARQUIVO}}', nome_arquivo)
+                .replace('{{CODIGO}}', codigo);
+            const modelo = this.criar_modelo(molde_json_javascript);
             const resultado = await modelo.generateContent(prompt_final);
             return JSON.parse(resultado.response.text());
         } catch (erro: any) {

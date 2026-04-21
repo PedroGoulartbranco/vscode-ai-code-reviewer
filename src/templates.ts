@@ -160,7 +160,71 @@ ${dados.analise_detalhada?.seguranca_e_erros?.trim() || "_Análise de segurança
 
 ---
 
-## ⚠️ Code Smells Encontrados
+## ⚠️ Code Smells Encontrados (são erros ou práticas ruins que afetam a qualidade do código)
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer_ ♟️
+`.trim();
+}
+
+export function template_javascript(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.clean_code || 0,
+        dados.notas?.performance_assincrona || 0,
+        dados.notas?.modularizacao || 0,
+        dados.notas?.seguranca || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    const usa_Async_Await = dados.metricas_js?.usa_async_await ? "Sim ✅" : "Não ❌";
+    const usa_ConstLet = dados.metricas_js?.usa_const_let ? "Sim ✅" : "Não ❌ (Uso de var detectado)";
+    const compCiclomatica = dados.metricas_js?.complexidade_ciclomatica || "Não avaliada";
+
+    return `
+# 🟨 Code Review JavaScript: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Clean Code** | ${dados.notas?.clean_code || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code || 0)} |
+| **Performance Assíncrona** | ${dados.notas?.performance_assincrona || 0}/10 | ${cor_emoji_nota(dados.notas?.performance_assincrona || 0)} |
+| **Modularização (ESM)** | ${dados.notas?.modularizacao || 0}/10 | ${cor_emoji_nota(dados.notas?.modularizacao || 0)} |
+| **Segurança (XSS/Injection)** | ${dados.notas?.seguranca || 0}/10 | ${cor_emoji_nota(dados.notas?.seguranca || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas Técnicas (JS Moderno)
+- **Complexidade Ciclomática:** ${compCiclomatica}
+- **Usa ES6+ (const/let):** ${usa_ConstLet}
+- **Padrões Assíncronos (Async/Await):** ${usa_Async_Await}
+
+---
+
+## 🔍 Análise Detalhada
+
+### ⚡ Modern JS & ES6+
+${dados.analise_detalhada?.modern_js_analysis?.trim() || "_Análise de recursos modernos não disponível._"}
+
+### 🔄 Gestão de Assincronismo
+${dados.analise_detalhada?.async_error_handling?.trim() || "_Análise de concorrência não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados (são erros ou práticas ruins que afetam a qualidade do código)
 ${listaSmells}
 
 ## 🚀 Sugestões de Refatoração

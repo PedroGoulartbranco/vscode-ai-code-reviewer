@@ -124,3 +124,49 @@ export const molde_json_python: ResponseSchema = {
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_python", "code_smells_encontrados"]
 };
+
+export const molde_json_javascript: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                clean_code: { type: SchemaType.NUMBER },
+                performance_assincrona: { type: SchemaType.NUMBER },
+                modularizacao: { type: SchemaType.NUMBER },
+                seguranca: { type: SchemaType.NUMBER }
+            },
+            required: ["clean_code", "logica_e_eficiencia", "modularizacao", "seguranca"]
+        },
+        metricas_js: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_async_await: { type: SchemaType.BOOLEAN },
+                usa_const_let: { type: SchemaType.BOOLEAN },
+                complexidade_ciclomatica: { type: SchemaType.STRING }
+            },
+            required: ["usa_async_await", "usa_const_let", "complexidade_ciclomatica"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                modern_js_analysis: { type: SchemaType.STRING },
+                async_error_handling: { type: SchemaType.STRING }
+            },
+            required: ["modern_js_analysis", "async_error_handling"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_python", "code_smells_encontrados"]
+};
