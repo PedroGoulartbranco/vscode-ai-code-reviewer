@@ -1,6 +1,15 @@
 import { calcular_media} from './utils';
 import { cor_emoji_nota } from './ui-utils';
 
+type template_json = (dados: any) => string;
+
+export const listaTemplates: Record<string, template_json> = {
+    'html': template_html,
+    'css': template_css,
+    'python': template_python,     
+    'javascript': template_javascript,
+};
+
 export function template_html(dados: any)  {
     const listaSugestoes = dados.sugestoes
         .map((s: string) => `- ${s.trim()}`)

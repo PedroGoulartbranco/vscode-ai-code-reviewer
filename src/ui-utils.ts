@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'; 
-import { template_css, template_html, template_python } from './templates';
+import { template_css, template_html, template_python, listaTemplates } from './templates';
 
 export function cor_emoji_nota(nota: number) {
     if (nota >= 7) {
@@ -11,35 +11,15 @@ export function cor_emoji_nota(nota: number) {
     }
 }
 
-export async function mostrar_revisao_html(revisao_json: any) {
-    const markdown_html = template_html(revisao_json);
+export async function mostrar_revisao(revisao_json: any, linguagem: any) {
+    const markdown = listaTemplates[linguagem](revisao_json);
     let mostrar = await vscode.workspace.openTextDocument({
-        content: markdown_html,
+        content: markdown,
         language: 'markdown'
     });
 
     await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
 }
-
-export async function mostrar_revisao_css(revisao_json: any) {
-    const markdown_css = template_css(revisao_json);
-    let mostrar = await vscode.workspace.openTextDocument({
-        content: markdown_css,
-        language: 'markdown'
-    });
-
-    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
-}
-
-export async function mostrar_revisao_python(revisao_json: any) {
-    const markdown_python = template_python(revisao_json);
-    let mostrar = await vscode.workspace.openTextDocument({
-        content: markdown_python,
-        language: 'markdown'
-    });
-
-    await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
-} 
 
 export function mostrar_erro(erro: any) {
     console.log("ERRO COMPLETO:", erro);
