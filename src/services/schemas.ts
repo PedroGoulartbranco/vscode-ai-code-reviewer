@@ -358,6 +358,56 @@ export const molde_json_cpp: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_cpp", "code_smells_encontrados"]
 };
 
+export const molde_json_go: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                tratamento_erros: { type: SchemaType.NUMBER },
+                concorrencia: { type: SchemaType.NUMBER },
+                idiomaticidade: { type: SchemaType.NUMBER },
+                performance: { type: SchemaType.NUMBER },
+                clean_code_go: { type: SchemaType.NUMBER }
+            },
+            required: ["tratamento_erros", "concorrencia", "idiomaticidade", "clean_code_go", "performance"]
+        },
+        metricas_go: {
+            type: SchemaType.OBJECT,
+            properties: {
+                trata_todos_erros: { type: SchemaType.BOOLEAN },
+                usa_defer_corretamente: { type: SchemaType.BOOLEAN },
+                concorrencia_segura: { type: SchemaType.BOOLEAN },
+                usa_contexto: { type: SchemaType.BOOLEAN },
+                estilo_codigo: { type: SchemaType.STRING }
+            },
+            required: ["trata_todos_erros", "usa_defer_corretamente", "concorrencia_segura", "estilo_codigo"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                error_handling_analysis: { type: SchemaType.STRING },
+                concurrency_design: { type: SchemaType.STRING },
+                memory_and_performance: { type: SchemaType.STRING }
+            },
+            required: ["error_handling_analysis", "concurrency_design", "memory_and_performance"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_cpp", "code_smells_encontrados"]
+};
+
 type template_schemas =  any;
 
 export const dicionario_schemas: Record<string, template_schemas> = {

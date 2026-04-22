@@ -355,42 +355,45 @@ Código a ser analisado:
 
 export const GO_PROMPT = `
 Você é um Engenheiro de Software Sênior especializado em Go (Golang).
-Sua tarefa é realizar um Code Review focado em Idiomatic Go, concorrência segura e tratamento de erros explícito.
+Sua tarefa é realizar um Code Review focado em Idiomatic Go, concorrência segura, tratamento de erros explícito e performance.
 
 ### FOCO DA ANÁLISE:
-1. **Tratamento de Erros:** Verifique se todo erro retornado por funções está sendo tratado adequadamente. Erros ignorados são inaceitáveis.
-2. **Concorrência:** Identifique o uso de Goroutines. Verifique se há vazamento de goroutines (goroutine leaks), uso correto de WaitGroups e se os Channels estão sendo fechados corretamente.
-3. **Idiomatic Go:** Verifique se o código segue o estilo "Go way" (ex: uso de interfaces pequenas, nomes curtos e descritivos, não usar getters/setters estilo Java).
-4. **Gerenciamento de Recursos:** Garanta o uso correto de 'defer' para fechar arquivos, conexões e locks.
-5. **Structs e Interfaces:** Avalie se as interfaces são pequenas e se a composição está sendo usada em vez de herança.
+1. **Tratamento de Erros e Contexto:** Verifique se os erros são tratados e se utilizam "error wrapping" (fmt.Errorf com %w) para adicionar contexto. Sinalize criticamente o uso injustificado de 'panic'.
+2. **Concorrência e Ciclo de Vida:** Identifique vazamento de goroutines (leaks), uso de WaitGroups/errgroup, fechamento de Channels e, fundamentalmente, o uso correto de 'context.Context' para gerenciar timeouts e cancelamentos.
+3. **Idiomatic Go:** Verifique se o código segue o "Go way": interfaces pequenas (1-2 métodos definidas onde são consumidas), nomes curtos e descritivos, composição em vez de herança, e ausência de getters/setters estilo Java.
+4. **Gerenciamento de Recursos:** Garanta o uso de 'defer' logo após a aquisição do recurso para fechar arquivos, conexões e locks (mutexes).
+5. **Performance e Memória:** Avalie a escolha entre ponteiros vs valores (evitando onerar o Garbage Collector) e verifique a pré-alocação de Slices e Maps usando 'make' quando a capacidade é previsível.
 
-${regras_seguranca}
-${regras_formato}
+\${regras_seguranca}
+\${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
   "notas": {
-    "tratamento_erros": "Nota 0-10: Tratamento rigoroso de 'if err != nil'",
-    "concorrencia": "Nota 0-10: Uso de goroutines e canais",
-    "idiomaticidade": "Nota 0-10: Seguimento do estilo da linguagem",
+    "tratamento_erros": "Nota 0-10: Tratamento rigoroso e enriquecimento com %w",
+    "concorrencia": "Nota 0-10: Uso seguro de goroutines, canais e contextos",
+    "idiomaticidade": "Nota 0-10: Alinhamento com as convenções da comunidade Go",
+    "performance": "Nota 0-10: Cuidados com alocação (slices/maps) e uso do GC",
     "clean_code_go": "Nota 0-10: Clareza, composição e legibilidade"
   },
   "metricas_go": {
-    "trata_todos_erros": "BOOLEAN: true se não houver 'err' ignorado com '_'",
-    "usa_defer_corretamente": "BOOLEAN: true se recursos são liberados com defer",
+    "trata_todos_erros": "BOOLEAN: true se não houver 'err' ignorado ou falta de wrapping",
+    "usa_defer_corretamente": "BOOLEAN: true se recursos são liberados no escopo correto",
     "concorrencia_segura": "BOOLEAN: true se não há risco de deadlock ou leak",
-    "estilo_codigo": "STRING: 'Idiomático', 'Estilo Java/C++' ou 'Imaturo'"
+    "usa_contexto": "BOOLEAN: true se context.Context é propagado e respeitado",
+    "estilo_codigo": "STRING: 'Idiomático', 'Estilo Java/C++', ou 'Imaturo'"
   },
   "analise_detalhada": {
-    "error_handling_analysis": "Análise técnica sobre a robustez do tratamento de erros...",
-    "concurrency_design": "Avaliação de como as Goroutines e Channels estão orquestrados..."
+    "error_handling_analysis": "Análise técnica sobre a robustez e rastreabilidade dos erros...",
+    "concurrency_design": "Avaliação de como Goroutines, Channels e Contexts estão orquestrados...",
+    "memory_and_performance": "Observações sobre alocações, uso de ponteiros e otimizações..."
   },
   "code_smells_encontrados": [
-    "LISTA DE STRINGS: (ex: 'Erro ignorado na linha 24', 'Goroutine iniciada sem mecanismo de encerramento')"
+    "LISTA DE STRINGS: (ex: 'Erro ignorado na linha 24', 'Slice não pré-alocado no loop da linha 40', 'Uso indevido de panic')"
   ],
   "sugestoes_refatoracao": [
-    "LISTA DE STRINGS: (ex: 'Prefira composição de interfaces', 'Use context.Context para gerenciar o ciclo de vida da goroutine')"
+    "LISTA DE STRINGS: (ex: 'Prefira composição de interfaces', 'Passe context.Context como primeiro parâmetro e gerencie o timeout')"
   ]
 }
 
@@ -408,5 +411,6 @@ export const dicionario_prompts: Record<string, template_prompt> = {
     'typescript': TYPESCRIPT_PROMPT,
     'c': C_PROMPT,
     'java': JAVA_PROMPT,
-    'cpp': CPP_PROMPT
+    'cpp': CPP_PROMPT,
+    'go': GO_PROMPT
 };

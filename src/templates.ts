@@ -11,7 +11,8 @@ export const listaTemplates: Record<string, template_json> = {
     'typescript': template_typescript,
     'c': template_c,
     'java': template_java,
-    'cpp': template_cpp
+    'cpp': template_cpp,
+    'go': template_go
 };
 
 export function template_html(dados: any)  {
@@ -505,5 +506,84 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (CPP-Engine)_ ♟️
+`.trim();
+}
+
+export function template_go(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_erros = parseNota(dados.notas?.tratamento_erros);
+    const n_concorrencia = parseNota(dados.notas?.concorrencia);
+    const n_idiomaticidade = parseNota(dados.notas?.idiomaticidade);
+    const n_performance = parseNota(dados.notas?.performance);
+    const n_clean = parseNota(dados.notas?.clean_code_go);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_erros, n_concorrencia, n_idiomaticidade, n_performance, n_clean];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_erros = dados.metricas_go?.trata_todos_erros ? "Tratados ✅" : "Ignorados 🚨";
+    const status_defer = dados.metricas_go?.usa_defer_corretamente ? "Correto ✅" : "Risco de Leak ⚠️";
+    const status_concorrencia = dados.metricas_go?.concorrencia_segura ? "Segura ✅" : "Risco de Deadlock 🚩";
+    const status_ctx = dados.metricas_go?.usa_contexto ? "Propagado ✅" : "Ausente ❌";
+    const estilo = dados.metricas_go?.estilo_codigo || "Não avaliado";
+
+    return `
+# 🐹 Code Review Go: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Tratamento de Erros** | ${n_erros}/10 | ${cor_emoji_nota(n_erros)} |
+| **Concorrência** | ${n_concorrencia}/10 | ${cor_emoji_nota(n_concorrencia)} |
+| **Idiomaticidade** | ${n_idiomaticidade}/10 | ${cor_emoji_nota(n_idiomaticidade)} |
+| **Performance** | ${n_performance}/10 | ${cor_emoji_nota(n_performance)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (Go)
+| Métrica | Estado |
+| :--- | :--- |
+| **Erros** | ${status_erros} |
+| **Defer/Recursos** | ${status_defer} |
+| **Concorrência** | ${status_concorrencia} |
+| **Context** | ${status_ctx} |
+| **Estilo** | ${estilo} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### ⚠️ Robustez e Erros
+${dados.analise_detalhada?.error_handling_analysis?.trim() || "_Análise de erros não disponível._"}
+
+### 🔄 Orquestração (Goroutines/Channels)
+${dados.analise_detalhada?.concurrency_design?.trim() || "_Análise de concorrência não disponível._"}
+
+### ⚡ Memória e Performance
+${dados.analise_detalhada?.memory_and_performance?.trim() || "_Análise de performance não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (Go-Engine)_ ♟️
 `.trim();
 }
