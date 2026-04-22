@@ -217,6 +217,53 @@ export const molde_json_typescript: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_ts", "code_smells_encontrados"]
 };
 
+export const molde_json_c: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                gestao_memoria: { type: SchemaType.NUMBER },
+                performance_velocidade: { type: SchemaType.NUMBER },
+                reutilizacao_recursos: { type: SchemaType.NUMBER },
+                clean_code_c: { type: SchemaType.NUMBER }
+            },
+            required: ["gestao_memoria", "performance_velocidade", "reutilizacao_recursos", "clean_code_c"]
+        },
+        metricas_c: {
+            type: SchemaType.OBJECT,
+            properties: {
+                vazamento_memoria_provavel: { type: SchemaType.BOOLEAN },
+                uso_ponteiros_perigosos: { type: SchemaType.BOOLEAN },
+                poluicao_escopo_global: { type: SchemaType.BOOLEAN },
+                possui_header_guards: { type: SchemaType.BOOLEAN }
+            },
+            required: ["vazamento_memoria_provavel", "uso_ponteiros_perigosos", "possui_header_guards", "poluicao_escopo_global"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                memory_management_analysis: { type: SchemaType.STRING },
+                optimization_potential: { type: SchemaType.STRING }
+            },
+            required: ["memory_management_analysis", "optimization_potential"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_c", "code_smells_encontrados"]
+};
+
 type template_schemas =  any;
 
 export const dicionario_schemas: Record<string, template_schemas> = {

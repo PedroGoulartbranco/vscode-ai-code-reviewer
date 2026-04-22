@@ -31,8 +31,6 @@ export function template_html(dados: any)  {
 
 ## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
 
---
-
 ## 🔍 Análise Detalhada
 
 ### 🏗️ Semântica e Estrutura
