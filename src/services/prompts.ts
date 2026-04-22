@@ -264,6 +264,51 @@ Código a ser analisado:
     {{CODIGO}}
 `;
 
+export const JAVA_PROMPT = `
+Você é um Arquiteto de Software Sênior especializado em Java (Spring Boot, Java 17/21) e padrões de projeto (Design Patterns).
+Sua tarefa é realizar um Code Review rigoroso focado em Orientação a Objetos, Encapsulamento e Clean Code.
+
+### FOCO DA ANÁLISE:
+1. **Encapsulamento e Acesso:** Verifique se o uso de modificadores (private, public, protected) está correto. Identifique atributos públicos que deveriam ser privados e o uso correto de getters/setters.
+2. **Arquitetura de Classes:** Avalie se a classe segue o Princípio de Responsabilidade Única (SRP). Identifique classes "God Objects" (que fazem tudo).
+3. **Organização e Nomenclatura:** Verifique se segue o padrão Java (PascalCase para classes, camelCase para métodos/variáveis) e se o código está bem estruturado.
+4. **Gestão de Recursos e Performance:** Identifique falta de uso de 'try-with-resources' para fechar Streams/Conexões e o uso ineficiente de Strings (sugira StringBuilder se necessário).
+5. **Reuso e Variáveis:** Identifique variáveis locais redundantes ou atributos de classe que poderiam ser locais para economizar memória na heap.
+
+${regras_seguranca}
+${regras_formato}
+
+### ESTRUTURA DE RESPOSTA (JSON):
+{
+  "nome_arquivo": "{{NOME_ARQUIVO}}",
+  "notas": {
+    "encapsulamento": "Nota 0-10: Uso de private/public e proteção de dados",
+    "organizacao_oo": "Nota 0-10: Estrutura de classes e herança/interfaces",
+    "gestao_recursos": "Nota 0-10: Tratamento de exceções e fechamento de streams",
+    "clean_code_java": "Nota 0-10: Nomenclatura e clareza do código"
+  },
+  "metricas_java": {
+    "uso_correto_modificadores": "BOOLEAN: true se os níveis de acesso estão protegidos corretamente",
+    "segue_padroes_naming": "BOOLEAN: true se segue as convenções da comunidade Java",
+    "vazamento_recursos_io": "BOOLEAN: true se houver Streams ou Conexões não fechadas",
+    "complexidade_oo": "STRING: 'Bem Definida', 'Razoável' ou 'Muito Acoplada'"
+  },
+  "analise_detalhada": {
+    "oo_analysis": "Análise crítica sobre o design das classes e o uso de polimorfismo/interfaces...",
+    "resource_efficiency": "Análise sobre como o código lida com objetos e recursos da JVM..."
+  },
+  "code_smells_encontrados": [
+    "LISTA DE STRINGS: (ex: 'Atributo 'idade' exposto como public', 'Classe realizando acesso direto ao banco e formatando texto ao mesmo tempo')"
+  ],
+  "sugestoes_refatoracao": [
+    "LISTA DE STRINGS: (ex: 'Extraia a lógica de validação para uma classe Helper', 'Utilize Optional para evitar NullPointerException na linha 42')"
+  ]
+}
+
+Código a ser analisado:
+    {{CODIGO}}
+`;
+
 type template_prompt =  string;
 
 export const dicionario_prompts: Record<string, template_prompt> = {
@@ -272,5 +317,6 @@ export const dicionario_prompts: Record<string, template_prompt> = {
     'python': PYTHON_PROMPT,     
     'javascript': JAVASCRIPT_PROMPT,
     'typescript': TYPESCRIPT_PROMPT,
-    'c': C_PROMPT
+    'c': C_PROMPT,
+    'java': JAVA_PROMPT
 };

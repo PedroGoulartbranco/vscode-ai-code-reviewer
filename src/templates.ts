@@ -9,7 +9,8 @@ export const listaTemplates: Record<string, template_json> = {
     'python': template_python,     
     'javascript': template_javascript,
     'typescript': template_typescript,
-    'c': template_c
+    'c': template_c,
+    'java': template_java
 };
 
 export function template_html(dados: any)  {
@@ -371,5 +372,71 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (C-Engine)_ ♟️
+`.trim();
+}
+
+export function template_java(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.encapsulamento || 0,
+        dados.notas?.organizacao_oo || 0,
+        dados.notas?.gestao_recursos || 0,
+        dados.notas?.clean_code_java || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_modificadores = dados.metricas_java?.uso_correto_modificadores ? "Protegidos ✅" : "Expostos 🚨 (Use private)";
+    const status_naming = dados.metricas_java?.segue_padroes_naming ? "Padrão Java ✅" : "Fora do Padrão ❌";
+    const status_recursos = dados.metricas_java?.vazamento_recursos_io ? "Vazamento Detectado! ⚠️" : "Recursos Fechados ✅";
+    const complexidade_oo = dados.metricas_java?.complexidade_oo || "Não avaliada";
+
+    return `
+# ☕ Code Review Java: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Encapsulamento** | ${dados.notas?.encapsulamento || 0}/10 | ${cor_emoji_nota(dados.notas?.encapsulamento || 0)} |
+| **Organização OO** | ${dados.notas?.organizacao_oo || 0}/10 | ${cor_emoji_nota(dados.notas?.organizacao_oo || 0)} |
+| **Gestão de Recursos** | ${dados.notas?.gestao_recursos || 0}/10 | ${cor_emoji_nota(dados.notas?.gestao_recursos || 0)} |
+| **Clean Code Java** | ${dados.notas?.clean_code_java || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code_java || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Arquitetura (JVM)
+- **Modificadores de Acesso:** ${status_modificadores}
+- **Convenções de Naming:** ${status_naming}
+- **Vazamento de I/O (Streams):** ${status_recursos}
+- **Complexidade OO:** ${complexidade_oo}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🏗️ Design e Orientação a Objetos
+${dados.analise_detalhada?.oo_analysis?.trim() || "_Análise de OO não disponível._"}
+
+### 🚀 Eficiência de Recursos e Performance
+${dados.analise_detalhada?.resource_efficiency?.trim() || "_Análise de eficiência não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (Java-Engine)_ ♟️
 `.trim();
 }

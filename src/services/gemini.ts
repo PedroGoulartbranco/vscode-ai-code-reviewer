@@ -1,4 +1,4 @@
-import { HTML_PROMPT, CSS_PROMPT, PYTHON_PROMPT, JAVASCRIPT_PROMPT, dicionario_prompts} from './prompts';
+import { dicionario_prompts} from './prompts';
 import { GoogleGenerativeAI, GenerativeModel, ResponseSchema } from "@google/generative-ai";
 import * as vscode from 'vscode';
 import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript, dicionario_schemas } from './schemas';

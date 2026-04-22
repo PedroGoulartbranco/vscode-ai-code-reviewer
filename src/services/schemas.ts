@@ -264,6 +264,53 @@ export const molde_json_c: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_c", "code_smells_encontrados"]
 };
 
+export const molde_json_java: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                encapsulamento: { type: SchemaType.NUMBER },
+                organizacao_oo: { type: SchemaType.NUMBER },
+                gestao_recursos: { type: SchemaType.NUMBER },
+                clean_code_java: { type: SchemaType.NUMBER }
+            },
+            required: ["encapsulamento", "organizacao_oo", "gestao_recursos", "clean_code_java"]
+        },
+        metricas_java: {
+            type: SchemaType.OBJECT,
+            properties: {
+                uso_correto_modificadores: { type: SchemaType.BOOLEAN },
+                segue_padroes_naming: { type: SchemaType.BOOLEAN },
+                vazamento_recursos_io: { type: SchemaType.BOOLEAN },
+                complexidade_oo: { type: SchemaType.STRING }
+            },
+            required: ["uso_correto_modificadores", "segue_padroes_naming", "vazamento_recursos_io", "complexidade_oo"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                oo_analysis: { type: SchemaType.STRING },
+                resource_efficiency: { type: SchemaType.STRING }
+            },
+            required: ["oo_analysis", "resource_efficiency"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_java", "code_smells_encontrados"]
+};
+
 type template_schemas =  any;
 
 export const dicionario_schemas: Record<string, template_schemas> = {
@@ -272,5 +319,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'python': molde_json_python,     
     'javascript': molde_json_javascript,
     'typescript': molde_json_typescript,
-    'c': molde_json_c
+    'c': molde_json_c,
+    'java': molde_json_java
 };
