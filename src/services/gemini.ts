@@ -1,7 +1,7 @@
-import { HTML_PROMPT, CSS_PROMPT, PYTHON_PROMPT, JAVASCRIPT_PROMPT} from './prompts';
+import { HTML_PROMPT, CSS_PROMPT, PYTHON_PROMPT, JAVASCRIPT_PROMPT, dicionario_prompts} from './prompts';
 import { GoogleGenerativeAI, GenerativeModel, ResponseSchema } from "@google/generative-ai";
 import * as vscode from 'vscode';
-import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript } from './schemas';
+import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript, dicionario_schemas } from './schemas';
 import { mostrar_erro } from '../ui-utils';
 
 export class Gemini_Bot {
@@ -28,48 +28,12 @@ export class Gemini_Bot {
         });
     }
 
-    async gerar_revisao_html(codigo: string, nome_arquivo: string) {
+    async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
         try {
-            const prompt_final = HTML_PROMPT 
+            const prompt_final = dicionario_prompts[linguagem] 
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo);
-            const modelo = this.criar_modelo(molde_json_html);
-            const resultado = await modelo.generateContent(prompt_final);
-            return JSON.parse(resultado.response.text());
-        } catch (erro: any) {
-            mostrar_erro(erro);
-        }
-    }
-    async gerar_revisao_css(codigo: string, nome_arquivo: string) {
-        try {
-            const prompt_final = CSS_PROMPT 
-                .replace('{{NOME_ARQUIVO}}', nome_arquivo)
-                .replace('{{CODIGO}}', codigo);
-            const modelo = this.criar_modelo(molde_json_css);
-            const resultado = await modelo.generateContent(prompt_final);
-            return JSON.parse(resultado.response.text());
-        } catch (erro: any) {
-            mostrar_erro(erro);
-        }
-    }
-    async gerar_revisao_python(codigo: string, nome_arquivo: string) {
-        try {
-            const prompt_final = PYTHON_PROMPT
-                .replace('{{NOME_ARQUIVO}}', nome_arquivo)
-                .replace('{{CODIGO}}', codigo);
-            const modelo = this.criar_modelo(molde_json_python);
-            const resultado = await modelo.generateContent(prompt_final);
-            return JSON.parse(resultado.response.text());
-        } catch (erro: any) {
-            mostrar_erro(erro);
-        }
-    }
-    async gerar_revisao_javascript(codigo: string, nome_arquivo: string) {
-        try {
-            const prompt_final = JAVASCRIPT_PROMPT
-                .replace('{{NOME_ARQUIVO}}', nome_arquivo)
-                .replace('{{CODIGO}}', codigo);
-            const modelo = this.criar_modelo(molde_json_javascript);
+            const modelo = this.criar_modelo(dicionario_schemas[linguagem]);
             const resultado = await modelo.generateContent(prompt_final);
             return JSON.parse(resultado.response.text());
         } catch (erro: any) {

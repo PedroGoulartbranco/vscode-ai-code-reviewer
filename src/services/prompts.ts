@@ -219,3 +219,12 @@ ${regras_formato}
 Código a ser analisado:
     {{CODIGO}}
 `;
+
+type template_prompt =  string;
+
+export const dicionario_prompts: Record<string, template_prompt> = {
+    'html': HTML_PROMPT,
+    'css': CSS_PROMPT,
+    'python': PYTHON_PROMPT,     
+    'javascript': JAVASCRIPT_PROMPT,
+};

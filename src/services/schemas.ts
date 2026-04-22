@@ -216,3 +216,13 @@ export const molde_json_typescript: ResponseSchema = {
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_ts", "code_smells_encontrados"]
 };
+
+type template_schemas =  any;
+
+export const dicionario_schemas: Record<string, template_schemas> = {
+    'html': molde_json_html,
+    'css': molde_json_css,
+    'python': molde_json_python,     
+    'javascript': molde_json_javascript,
+    'typescript': molde_json_typescript
+};
