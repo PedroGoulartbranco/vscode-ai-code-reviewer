@@ -8,6 +8,7 @@ export const listaTemplates: Record<string, template_json> = {
     'css': template_css,
     'python': template_python,     
     'javascript': template_javascript,
+    'typescript': template_typescript
 };
 
 export function template_html(dados: any)  {
@@ -234,6 +235,70 @@ ${dados.analise_detalhada?.async_error_handling?.trim() || "_Análise de concorr
 ---
 
 ## ⚠️ Code Smells Encontrados (são erros ou práticas ruins que afetam a qualidade do código)
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer_ ♟️
+`.trim();
+}
+
+export function template_typescript(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.clean_code || 0,
+        dados.notas?.seguranca_tipos || 0,
+        dados.notas?.modularizacao || 0,
+        dados.notas?.seguranca || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    const usa_Any = dados.metricas_ts?.usa_any ? "Sim 🚨 (Evite!)" : "Não ✅ (Excelente!)";
+    const usa_Interfaces = dados.metricas_ts?.usa_interfaces ? "Sim ✅" : "Não ❌ (Defina contratos!)";
+    const compCiclomatica = dados.metricas_ts?.complexidade_ciclomatica || "Não avaliada";
+
+    return `
+# 🟦 Code Review TypeScript: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Clean Code** | ${dados.notas?.clean_code || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code || 0)} |
+| **Segurança de Tipos** | ${dados.notas?.seguranca_tipos || 0}/10 | ${cor_emoji_nota(dados.notas?.seguranca_tipos || 0)} |
+| **Modularização** | ${dados.notas?.modularizacao || 0}/10 | ${cor_emoji_nota(dados.notas?.modularizacao || 0)} |
+| **Segurança Geral** | ${dados.notas?.seguranca || 0}/10 | ${cor_emoji_nota(dados.notas?.seguranca || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas Técnicas (TypeScript)
+- **Complexidade Ciclomática:** ${compCiclomatica}
+- **Usa \`any\` indevidamente:** ${usa_Any}
+- **Usa Interfaces/Types:** ${usa_Interfaces}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🛡️ Sistema de Tipagem
+${dados.analise_detalhada?.type_system_analysis?.trim() || "_Análise de tipagem não disponível._"}
+
+### 🔄 Gestão de Assincronismo e Erros
+${dados.analise_detalhada?.async_error_handling?.trim() || "_Análise de concorrência não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
 ${listaSmells}
 
 ## 🚀 Sugestões de Refatoração

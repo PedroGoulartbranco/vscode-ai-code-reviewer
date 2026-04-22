@@ -27,7 +27,6 @@ export class Gemini_Bot {
             },
         });
     }
-
     async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
         try {
             const prompt_final = dicionario_prompts[linguagem] 

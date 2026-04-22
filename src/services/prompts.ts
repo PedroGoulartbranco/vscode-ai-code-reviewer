@@ -227,4 +227,5 @@ export const dicionario_prompts: Record<string, template_prompt> = {
     'css': CSS_PROMPT,
     'python': PYTHON_PROMPT,     
     'javascript': JAVASCRIPT_PROMPT,
+    'typescript': TYPESCRIPT_PROMPT
 };
