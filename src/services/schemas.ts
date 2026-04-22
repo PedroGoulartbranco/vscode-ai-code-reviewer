@@ -311,6 +311,53 @@ export const molde_json_java: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_java", "code_smells_encontrados"]
 };
 
+export const molde_json_cpp: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                raii_memoria: { type: SchemaType.NUMBER },
+                eficiencia_copias: { type: SchemaType.NUMBER },
+                uso_stl: { type: SchemaType.NUMBER },
+                clean_code_cpp: { type: SchemaType.NUMBER }
+            },
+            required: ["raii_memoria", "eficiencia_copias", "uso_stl", "clean_code_cpp"]
+        },
+        metricas_cpp: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_smart_pointers: { type: SchemaType.BOOLEAN },
+                usa_passagem_por_ref: { type: SchemaType.BOOLEAN },
+                evita_recursos_c_puros: { type: SchemaType.BOOLEAN },
+                complexidade_modelo: { type: SchemaType.STRING }
+            },
+            required: ["usa_smart_pointers", "usa_passagem_por_ref", "evita_recursos_c_puros", "complexidade_modelo"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                memory_safety_analysis: { type: SchemaType.STRING },
+                modern_cpp_optimization: { type: SchemaType.STRING }
+            },
+            required: ["memory_safety_analysis", "modern_cpp_optimization"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_cpp", "code_smells_encontrados"]
+};
+
 type template_schemas =  any;
 
 export const dicionario_schemas: Record<string, template_schemas> = {
@@ -320,5 +367,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'javascript': molde_json_javascript,
     'typescript': molde_json_typescript,
     'c': molde_json_c,
-    'java': molde_json_java
+    'java': molde_json_java,
+    'cpp': molde_json_cpp
 };

@@ -10,7 +10,8 @@ export const listaTemplates: Record<string, template_json> = {
     'javascript': template_javascript,
     'typescript': template_typescript,
     'c': template_c,
-    'java': template_java
+    'java': template_java,
+    'cpp': template_cpp
 };
 
 export function template_html(dados: any)  {
@@ -438,5 +439,71 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (Java-Engine)_ ♟️
+`.trim();
+}
+
+export function template_cpp(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.raii_memoria || 0,
+        dados.notas?.eficiencia_copias || 0,
+        dados.notas?.uso_stl || 0,
+        dados.notas?.clean_code_cpp || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_smart_ptr = dados.metricas_cpp?.usa_smart_pointers ? "RAII/Smart Pointers ✅" : "Ponteiros Crus ⚠️";
+    const status_ref = dados.metricas_cpp?.usa_passagem_por_ref ? "Passagem Eficiente ✅" : "Cópia Pesada 🚨";
+    const status_stl = dados.metricas_cpp?.evita_recursos_c_puros ? "STL Utilizada ✅" : "Recursos C Legados 🚩";
+    const complexidade = dados.metricas_cpp?.complexidade_modelo || "Não avaliada";
+
+    return `
+# 🧊 Code Review C++: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **RAII & Memória** | ${dados.notas?.raii_memoria || 0}/10 | ${cor_emoji_nota(dados.notas?.raii_memoria || 0)} |
+| **Eficiência (Cópias)** | ${dados.notas?.eficiencia_copias || 0}/10 | ${cor_emoji_nota(dados.notas?.eficiencia_copias || 0)} |
+| **Uso da STL** | ${dados.notas?.uso_stl || 0}/10 | ${cor_emoji_nota(dados.notas?.uso_stl || 0)} |
+| **Clean Code C++** | ${dados.notas?.clean_code_cpp || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code_cpp || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Performance e Segurança
+- **Gerenciamento de Memória:** ${status_smart_ptr}
+- **Otimização de Parâmetros:** ${status_ref}
+- **Containers/STL:** ${status_stl}
+- **Complexidade de Modelo:** ${complexidade}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🛡️ Segurança de Memória (RAII)
+${dados.analise_detalhada?.memory_safety_analysis?.trim() || "_Análise de segurança não disponível._"}
+
+### 🚀 Otimização e C++ Moderno
+${dados.analise_detalhada?.modern_cpp_optimization?.trim() || "_Sugestões de otimização não disponíveis._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (CPP-Engine)_ ♟️
 `.trim();
 }
