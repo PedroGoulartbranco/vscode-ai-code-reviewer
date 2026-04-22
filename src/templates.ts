@@ -8,7 +8,8 @@ export const listaTemplates: Record<string, template_json> = {
     'css': template_css,
     'python': template_python,     
     'javascript': template_javascript,
-    'typescript': template_typescript
+    'typescript': template_typescript,
+    'c': template_c
 };
 
 export function template_html(dados: any)  {
@@ -304,5 +305,71 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer_ ♟️
+`.trim();
+}
+
+export function template_c(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [
+        dados.notas?.gestao_memoria || 0,
+        dados.notas?.performance_velocidade || 0,
+        dados.notas?.reutilizacao_recursos || 0,
+        dados.notas?.clean_code_c || 0
+    ];
+    
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_memoria = dados.metricas_c?.vazamento_memoria_provavel ? "Vazamento Detectado! 💀" : "Seguro ✅";
+    const status_ponteiros = dados.metricas_c?.uso_ponteiros_perigosos ? "Ponteiros Inseguros! ⚠️" : "Uso Seguro ✅";
+    const status_escopo = dados.metricas_c?.poluicao_escopo_global ? "Poluição de Globais 🚩" : "Escopo Limpo ✅";
+    const status_headers = dados.metricas_c?.possui_header_guards ? "Presentes ✅" : "Ausentes ❌";
+
+    return `
+# ⚙️ Code Review C: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Gestão de Memória** | ${dados.notas?.gestao_memoria || 0}/10 | ${cor_emoji_nota(dados.notas?.gestao_memoria || 0)} |
+| **Performance/Velocidade** | ${dados.notas?.performance_velocidade || 0}/10 | ${cor_emoji_nota(dados.notas?.performance_velocidade || 0)} |
+| **Reutilização/Stack** | ${dados.notas?.reutilizacao_recursos || 0}/10 | ${cor_emoji_nota(dados.notas?.reutilizacao_recursos || 0)} |
+| **Organização (Clean Code)** | ${dados.notas?.clean_code_c || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code_c || 0)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Baixo Nível
+- **Memória:** ${status_memoria}
+- **Ponteiros:** ${status_ponteiros}
+- **Escopo Global:** ${status_escopo}
+- **Header Guards:** ${status_headers}
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🧠 Gestão de Memória e Ciclo de Vida
+${dados.analise_detalhada?.memory_management_analysis?.trim() || "_Análise de memória não disponível._"}
+
+### ⚡ Potencial de Otimização
+${dados.analise_detalhada?.optimization_potential?.trim() || "_Sugestões de performance não disponíveis._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (C-Engine)_ ♟️
 `.trim();
 }

@@ -271,5 +271,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'css': molde_json_css,
     'python': molde_json_python,     
     'javascript': molde_json_javascript,
-    'typescript': molde_json_typescript
+    'typescript': molde_json_typescript,
+    'c': molde_json_c
 };
