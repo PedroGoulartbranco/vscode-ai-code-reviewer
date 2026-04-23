@@ -406,7 +406,7 @@ export const molde_json_go: ResponseSchema = {
         }
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_cpp", "code_smells_encontrados"]
-};
+}; 
 
 type template_schemas =  any;
 
