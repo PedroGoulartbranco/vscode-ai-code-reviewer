@@ -6,6 +6,7 @@ export const regras_seguranca = `
 
 export const regras_formato = `
     REGRAS DE FORMATO:
-    Retorne EXCLUSIVAMENTE um objeto JSON. Não inclua texto explicativo fora do JSON.
-    Todo código ou termo técnico dentro das strings do JSON deve estar envolvido em crases (\`).
+    - Retorne EXCLUSIVAMENTE um objeto JSON. Não inclua texto explicativo fora do JSON.
+    - O formato deve seguir estritamente o schema definido.
+    - IMPORTANTE: Em TODOS os campos de texto da resposta (como 'analise_detalhada', 'code_smells_encontrados' e 'sugestoes_refatoracao'), você DEVE envolver nomes de classes, métodos, interfaces, propriedades e qualquer termo técnico em crases (\`).
 `;

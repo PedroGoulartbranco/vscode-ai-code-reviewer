@@ -385,7 +385,7 @@ export const molde_json_go: ResponseSchema = {
                 usa_contexto: { type: SchemaType.BOOLEAN },
                 estilo_codigo: { type: SchemaType.STRING }
             },
-            required: ["trata_todos_erros", "usa_defer_corretamente", "concorrencia_segura", "estilo_codigo"]
+            required: ["trata_todos_erros", "usa_defer_corretamente", "concorrencia_segura", "estilo_codigo", "usa_contexto"]
         },
         analise_detalhada: {
             type: SchemaType.OBJECT,
@@ -405,7 +405,54 @@ export const molde_json_go: ResponseSchema = {
             items: { type: SchemaType.STRING }
         }
     },
-    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_cpp", "code_smells_encontrados"]
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_go", "code_smells_encontrados"]
+};
+
+export const molde_json_csharp: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                async_await: { type: SchemaType.NUMBER },
+                gestao_recursos: { type: SchemaType.NUMBER },
+                clean_code_csharp: { type: SchemaType.NUMBER },
+                linq_performance: { type: SchemaType.NUMBER }
+            },
+            required: ["async_await", "gestao_recursos", "linq_performance", "clean_code_csharp"]
+        },
+        metricas_csharp: {
+            type: SchemaType.OBJECT,
+            properties: {
+                concorrencia_async_segura: { type: SchemaType.BOOLEAN },
+                libera_recursos_using: { type: SchemaType.BOOLEAN },
+                linq_otimizado: { type: SchemaType.BOOLEAN },
+                nivel_linguagem: { type: SchemaType.STRING }
+            },
+            required: ["concorrencia_async_segura", "libera_recursos_using", "linq_otimizado", "nivel_linguagem"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                async_and_concurrency: { type: SchemaType.STRING },
+                memory_and_linq: { type: SchemaType.STRING }
+            },
+            required: ["async_and_concurrency", "memory_and_linq"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_csharp", "code_smells_encontrados"]
 }; 
 
 type template_schemas =  any;
@@ -418,5 +465,7 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'typescript': molde_json_typescript,
     'c': molde_json_c,
     'java': molde_json_java,
-    'cpp': molde_json_cpp
+    'cpp': molde_json_cpp,
+    'go': molde_json_go,
+    'csharp': molde_json_csharp
 };

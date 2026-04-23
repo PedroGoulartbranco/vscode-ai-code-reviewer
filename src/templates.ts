@@ -12,7 +12,8 @@ export const listaTemplates: Record<string, template_json> = {
     'c': template_c,
     'java': template_java,
     'cpp': template_cpp,
-    'go': template_go
+    'go': template_go,
+    'csharp': template_csharp
 };
 
 export function template_html(dados: any)  {
@@ -248,6 +249,17 @@ _Gerado por Gemini Code Reviewer_ ♟️
 }
 
 export function template_typescript(dados: any) {
+    // 🛡️ Função para higienizar notas (remove "/10" e garante número)
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_clean = parseNota(dados.notas?.clean_code);
+    const n_tipos = parseNota(dados.notas?.seguranca_tipos);
+    const n_modularizacao = parseNota(dados.notas?.modularizacao);
+    const n_seguranca = parseNota(dados.notas?.seguranca);
+
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -256,17 +268,12 @@ export function template_typescript(dados: any) {
         ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
         .join('\n') || "_Nenhum problema grave detectado._";
 
-    const notasParaMedia = [
-        dados.notas?.clean_code || 0,
-        dados.notas?.seguranca_tipos || 0,
-        dados.notas?.modularizacao || 0,
-        dados.notas?.seguranca || 0
-    ];
-    
+    const notasParaMedia = [n_clean, n_tipos, n_modularizacao, n_seguranca];
     const media_geral = calcular_media(notasParaMedia);
 
-    const usa_Any = dados.metricas_ts?.usa_any ? "Sim 🚨 (Evite!)" : "Não ✅ (Excelente!)";
-    const usa_Interfaces = dados.metricas_ts?.usa_interfaces ? "Sim ✅" : "Não ❌ (Defina contratos!)";
+    // Métricas formatadas na tabela
+    const status_any = dados.metricas_ts?.usa_any ? "🚨 Evite usar!" : "✅ Seguro";
+    const status_interfaces = dados.metricas_ts?.usa_interfaces ? "✅ Definido" : "❌ Defina contratos";
     const compCiclomatica = dados.metricas_ts?.complexidade_ciclomatica || "Não avaliada";
 
     return `
@@ -274,19 +281,21 @@ export function template_typescript(dados: any) {
 
 | Critério | Nota | Status |
 | :--- | :---: | :---: |
-| **Clean Code** | ${dados.notas?.clean_code || 0}/10 | ${cor_emoji_nota(dados.notas?.clean_code || 0)} |
-| **Segurança de Tipos** | ${dados.notas?.seguranca_tipos || 0}/10 | ${cor_emoji_nota(dados.notas?.seguranca_tipos || 0)} |
-| **Modularização** | ${dados.notas?.modularizacao || 0}/10 | ${cor_emoji_nota(dados.notas?.modularizacao || 0)} |
-| **Segurança Geral** | ${dados.notas?.seguranca || 0}/10 | ${cor_emoji_nota(dados.notas?.seguranca || 0)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+| **Segurança de Tipos** | ${n_tipos}/10 | ${cor_emoji_nota(n_tipos)} |
+| **Modularização** | ${n_modularizacao}/10 | ${cor_emoji_nota(n_modularizacao)} |
+| **Segurança Geral** | ${n_seguranca}/10 | ${cor_emoji_nota(n_seguranca)} |
 
 ---
 
 ## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
 
 ## 📏 Métricas Técnicas (TypeScript)
-- **Complexidade Ciclomática:** ${compCiclomatica}
-- **Usa \`any\` indevidamente:** ${usa_Any}
-- **Usa Interfaces/Types:** ${usa_Interfaces}
+| Métrica | Estado |
+| :--- | :--- |
+| **Complexidade Ciclomática** | ${compCiclomatica} |
+| **Uso de \`any\`** | ${status_any} |
+| **Uso de Interfaces/Types** | ${status_interfaces} |
 
 ---
 
@@ -307,7 +316,7 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer_ ♟️
+_Gerado por Gemini Code Reviewer (TS-Engine)_ ♟️
 `.trim();
 }
 
@@ -514,7 +523,6 @@ export function template_go(dados: any) {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
     };
-
     const n_erros = parseNota(dados.notas?.tratamento_erros);
     const n_concorrencia = parseNota(dados.notas?.concorrencia);
     const n_idiomaticidade = parseNota(dados.notas?.idiomaticidade);
@@ -585,5 +593,77 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (Go-Engine)_ ♟️
+`.trim();
+}
+
+export function template_csharp(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_async = parseNota(dados.notas?.async_await);
+    const n_recursos = parseNota(dados.notas?.gestao_recursos);
+    const n_linq = parseNota(dados.notas?.linq_performance);
+    const n_clean = parseNota(dados.notas?.clean_code_csharp);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_async, n_recursos, n_linq, n_clean];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_async = dados.metricas_csharp?.concorrencia_async_segura ? "Segura ✅" : "Deadlock Risk 🚩";
+    const status_using = dados.metricas_csharp?.libera_recursos_using ? "IDisposable OK ✅" : "Risco de Leak ⚠️";
+    const status_linq = dados.metricas_csharp?.linq_otimizado ? "Otimizado ✅" : "Lazy Evaluation Warning ⚠️";
+    const nivel = dados.metricas_csharp?.nivel_linguagem || "Não avaliado";
+
+    return `
+# 💜 Code Review C#: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Async/Await** | ${n_async}/10 | ${cor_emoji_nota(n_async)} |
+| **Gestão de Recursos** | ${n_recursos}/10 | ${cor_emoji_nota(n_recursos)} |
+| **LINQ/Performance** | ${n_linq}/10 | ${cor_emoji_nota(n_linq)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (.NET)
+| Métrica | Estado |
+| :--- | :--- |
+| **Concorrência** | ${status_async} |
+| **Recursos (Using)** | ${status_using} |
+| **LINQ/Coleções** | ${status_linq} |
+| **Nível (.NET)** | ${nivel} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🔄 Async e Concorrência
+${dados.analise_detalhada?.async_and_concurrency?.trim() || "_Análise de async não disponível._"}
+
+### ⚡ Memória e LINQ
+${dados.analise_detalhada?.memory_and_linq?.trim() || "_Análise de memória e LINQ não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (CSharp-Engine)_ ♟️
 `.trim();
 }
