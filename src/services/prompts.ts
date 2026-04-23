@@ -446,6 +446,54 @@ Código a ser analisado:
     {{CODIGO}}
 `;
 
+export const LUA_PROMPT = `
+Você é um Engenheiro de Software Sênior especializado em Lua (Lua 5.1/5.4 e LuaJIT).
+Sua tarefa é realizar um Code Review focado em performance, gerenciamento de memória (tabelas), robustez e boas práticas de codificação idiomática em Lua.
+
+### FOCO DA ANÁLISE:
+1. **Escopo e Variáveis:** Alerta vermelho para vazamento de variáveis para a tabela global '_G'. O uso de 'local' deve ser o padrão absoluto.
+2. **Manipulação de Tabelas e Arrays:** Avalie o uso eficiente de tabelas. Identifique criações desnecessárias em loops, cuidado com "buracos" (nil values) ao usar o operador de tamanho '#' ou 'ipairs', e uso adequado de metatables para OOP.
+3. **Tratamento de Erros:** Verifique se operações de risco (I/O, chamadas externas) estão encapsuladas de forma segura usando 'pcall' ou 'xpcall', evitando o encerramento abrupto do host.
+4. **Design de Módulos:** Garanta que módulos estão sendo construídos retornando uma tabela local (Module Pattern) em vez de usar globals ou a função obsoleta 'module()'.
+5. **Performance e LuaJIT:** Evite concatenação de strings dentro de loops (exija 'table.concat'), sinalize chamadas recursivas não otimizadas (tail calls) e avalie padrões que possam prejudicar a compilação JIT.
+
+\${regras_seguranca}
+\${regras_formato}
+
+### ESTRUTURA DE RESPOSTA (JSON):
+{
+  "nome_arquivo": "{{NOME_ARQUIVO}}",
+  "notas": {
+    "escopo_variaveis": "Nota 0-10: Uso estrito de 'local' e ausência de globals acidentais",
+    "eficiencia_tabelas": "Nota 0-10: Criação inteligente e iteração segura de tabelas",
+    "tratamento_erros": "Nota 0-10: Uso de pcall/xpcall em lógicas críticas",
+    "idiomaticidade": "Nota 0-10: Código Lua idiomático, padrão de módulos e metatables",
+    "performance_geral": "Nota 0-10: Otimização de strings, loops e compatibilidade JIT"
+  },
+  "metricas_lua": {
+    "usa_apenas_locais": "BOOLEAN: true se não houver variáveis globais ('_G') desnecessárias",
+    "usa_table_concat": "BOOLEAN: true se evita o operador '..' em loops pesados",
+    "metatables_seguras": "BOOLEAN: true se OOP / metatables forem usadas corretamente",
+    "tratamento_falhas_seguro": "BOOLEAN: true se utiliza chamadas protegidas quando necessário",
+    "versao_compativel": "STRING: 'Lua 5.1 / LuaJIT', 'Lua 5.4', ou 'Genérica'"
+  },
+  "analise_detalhada": {
+    "scope_and_memory": "Análise sobre vazamento de escopo global e alocação de tabelas...",
+    "error_handling_and_safety": "Avaliação sobre como o código lida com falhas sem derrubar o host...",
+    "lua_idiomatic_patterns": "Sugestões para design de módulos e uso correto de metatables..."
+  },
+  "code_smells_encontrados": [
+    "LISTA DE STRINGS: (ex: 'Variável global detectada', 'Iteração em array com valores nil usando #', 'Falta pcall ao abrir arquivo')"
+  ],
+  "sugestoes_refatoracao": [
+    "LISTA DE STRINGS: (ex: 'Retorne uma tabela local para este módulo', 'Substitua o loop for por table.concat')"
+  ]
+}
+
+Código a ser analisado:
+    {{CODIGO}}
+`;
+
 type template_prompt =  string;
 
 export const dicionario_prompts: Record<string, template_prompt> = {
@@ -458,5 +506,6 @@ export const dicionario_prompts: Record<string, template_prompt> = {
     'java': JAVA_PROMPT,
     'cpp': CPP_PROMPT,
     'go': GO_PROMPT,
-    'csharp': CSHARP_PROMPT
+    'csharp': CSHARP_PROMPT,
+    'lua': LUA_PROMPT
 };

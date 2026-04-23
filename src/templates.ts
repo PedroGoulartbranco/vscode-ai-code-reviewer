@@ -13,7 +13,8 @@ export const listaTemplates: Record<string, template_json> = {
     'java': template_java,
     'cpp': template_cpp,
     'go': template_go,
-    'csharp': template_csharp
+    'csharp': template_csharp,
+    'lua': template_lua
 };
 
 export function template_html(dados: any)  {
@@ -665,5 +666,84 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (CSharp-Engine)_ ♟️
+`.trim();
+}
+
+export function template_lua(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_escopo = parseNota(dados.notas?.escopo_variaveis);
+    const n_tabelas = parseNota(dados.notas?.eficiencia_tabelas);
+    const n_erros = parseNota(dados.notas?.tratamento_erros);
+    const n_idiomatico = parseNota(dados.notas?.idiomaticidade);
+    const n_perf = parseNota(dados.notas?.performance_geral);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_escopo, n_tabelas, n_erros, n_idiomatico, n_perf];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_locais = dados.metricas_lua?.usa_apenas_locais ? "Seguro ✅" : "Globais Detectadas 🚨";
+    const status_concat = dados.metricas_lua?.usa_table_concat ? "Otimizado ✅" : "Concat. Ineficiente ⚠️";
+    const status_meta = dados.metricas_lua?.metatables_seguras ? "Seguras ✅" : "Risco em Metatables 🚩";
+    const status_erros = dados.metricas_lua?.tratamento_falhas_seguro ? "Tratados ✅" : "Risco de Crash ❌";
+    const versao = dados.metricas_lua?.versao_compativel || "Não especificada";
+
+    return `
+# 🌙 Code Review Lua: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Escopo (Local)** | ${n_escopo}/10 | ${cor_emoji_nota(n_escopo)} |
+| **Eficiência Tabelas** | ${n_tabelas}/10 | ${cor_emoji_nota(n_tabelas)} |
+| **Tratamento Erros** | ${n_erros}/10 | ${cor_emoji_nota(n_erros)} |
+| **Idiomaticidade** | ${n_idiomatico}/10 | ${cor_emoji_nota(n_idiomatico)} |
+| **Performance** | ${n_perf}/10 | ${cor_emoji_nota(n_perf)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (Lua)
+| Métrica | Estado |
+| :--- | :--- |
+| **Uso de Globais** | ${status_locais} |
+| **Concatenação** | ${status_concat} |
+| **Metatables** | ${status_meta} |
+| **Tratamento Falhas** | ${status_erros} |
+| **Versão** | ${versao} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### 📦 Escopo e Memória
+${dados.analise_detalhada?.scope_and_memory?.trim() || "_Análise de escopo não disponível._"}
+
+### 🛡️ Erros e Segurança
+${dados.analise_detalhada?.error_handling_and_safety?.trim() || "_Análise de erros não disponível._"}
+
+### 🌙 Padrões Idiomáticos
+${dados.analise_detalhada?.lua_idiomatic_patterns?.trim() || "_Análise idiomática não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (Lua-Engine)_ ♟️
 `.trim();
 }

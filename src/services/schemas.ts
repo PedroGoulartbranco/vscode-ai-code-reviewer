@@ -453,6 +453,56 @@ export const molde_json_csharp: ResponseSchema = {
         }
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_csharp", "code_smells_encontrados"]
+};
+
+export const molde_json_lua: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                escopo_variaveis: { type: SchemaType.NUMBER },
+                eficiencia_tabelas: { type: SchemaType.NUMBER },
+                tratamento_erros: { type: SchemaType.NUMBER },
+                idiomaticidade: { type: SchemaType.NUMBER },
+                performance_geral: { type: SchemaType.NUMBER }
+            },
+            required: ["escopo_variaveis", "eficiencia_tabelas", "tratamento_erros", "idiomaticidade", "performance_geral"]
+        },
+        metricas_lua: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_apenas_locais: { type: SchemaType.BOOLEAN },
+                usa_table_concat: { type: SchemaType.BOOLEAN },
+                metatables_seguras: { type: SchemaType.BOOLEAN },
+                tratamento_falhas_seguro: { type: SchemaType.BOOLEAN},
+                versao_compativel: { type: SchemaType.STRING}
+            },
+            required: ["usa_table_concat", "usa_apenas_locais", "metatables_seguras", "tratamento_falhas_seguro", "versao_compativel"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                scope_and_memory: { type: SchemaType.STRING },
+                error_handling_and_safety: { type: SchemaType.STRING },
+                lua_idiomatic_patterns: { type: SchemaType.STRING }
+            },
+            required: ["scope_and_memory", "lua_idiomatic_patterns", "error_handling_and_safety"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_lua", "code_smells_encontrados"]
 }; 
 
 type template_schemas =  any;
@@ -467,5 +517,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'java': molde_json_java,
     'cpp': molde_json_cpp,
     'go': molde_json_go,
-    'csharp': molde_json_csharp
+    'csharp': molde_json_csharp,
+    'lua': molde_json_lua
 };
