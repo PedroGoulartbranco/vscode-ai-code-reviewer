@@ -556,5 +556,6 @@ export const dicionario_prompts: Record<string, template_prompt> = {
     'cpp': CPP_PROMPT,
     'go': GO_PROMPT,
     'csharp': CSHARP_PROMPT,
-    'lua': LUA_PROMPT
+    'lua': LUA_PROMPT,
+    'luau': LUAU_PROMPT
 };

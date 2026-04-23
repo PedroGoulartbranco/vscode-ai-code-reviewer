@@ -14,7 +14,8 @@ export const listaTemplates: Record<string, template_json> = {
     'cpp': template_cpp,
     'go': template_go,
     'csharp': template_csharp,
-    'lua': template_lua
+    'lua': template_lua,
+    'luau': template_luau
 };
 
 export function template_html(dados: any)  {

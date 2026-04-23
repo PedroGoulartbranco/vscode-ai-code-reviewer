@@ -568,5 +568,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'cpp': molde_json_cpp,
     'go': molde_json_go,
     'csharp': molde_json_csharp,
-    'lua': molde_json_lua
+    'lua': molde_json_lua,
+    'luau': molde_json_luau
 };
