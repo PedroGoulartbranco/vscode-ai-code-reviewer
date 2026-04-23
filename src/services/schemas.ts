@@ -505,6 +505,56 @@ export const molde_json_lua: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_lua", "code_smells_encontrados"]
 }; 
 
+export const molde_json_luau: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                type_safety: { type: SchemaType.NUMBER },
+                engine_performance: { type: SchemaType.NUMBER },
+                memory_management: { type: SchemaType.NUMBER },
+                modern_syntax: { type: SchemaType.NUMBER },
+                error_handling: { type: SchemaType.NUMBER }
+            },
+            required: ["type_safety", "engine_performance", "memory_management", "modern_syntax", "error_handling"]
+        },
+        metricas_luau: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_strict_typing: { type: SchemaType.BOOLEAN },
+                usa_task_library_apenas: { type: SchemaType.BOOLEAN },
+                estilo_codigo: { type: SchemaType.STRING },
+                conexoes_seguras: { type: SchemaType.BOOLEAN},
+                trata_falhas_roblox: { type: SchemaType.BOOLEAN}
+            },
+            required: ["usa_strict_typing", "usa_task_library_apenas", "trata_falhas_roblox", "conexoes_seguras", "estilo_codigo"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                types_and_architecture: { type: SchemaType.STRING },
+                roblox_engine_interactions: { type: SchemaType.STRING },
+                luau_syntax_opportunities: { type: SchemaType.STRING }
+            },
+            required: ["types_and_architecture", "roblox_engine_interactions", "luau_syntax_opportunities"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_luau", "code_smells_encontrados"]
+}; 
+
 type template_schemas =  any;
 
 export const dicionario_schemas: Record<string, template_schemas> = {

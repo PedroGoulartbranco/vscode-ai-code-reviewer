@@ -747,3 +747,82 @@ ${listaSugestoes}
 _Gerado por Gemini Code Reviewer (Lua-Engine)_ ♟️
 `.trim();
 }
+
+export function template_luau(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_type = parseNota(dados.notas?.type_safety);
+    const n_eng = parseNota(dados.notas?.engine_performance);
+    const n_mem = parseNota(dados.notas?.memory_management);
+    const n_mod = parseNota(dados.notas?.modern_syntax);
+    const n_err = parseNota(dados.notas?.error_handling);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_type, n_eng, n_mem, n_mod, n_err];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_strict = dados.metricas_luau?.usa_strict_typing ? "Strict ✅" : "Warden/Default ⚠️";
+    const status_task = dados.metricas_luau?.usa_task_library_apenas ? "Task Lib ✅" : "Legacy wait() 🚨";
+    const status_falhas = dados.metricas_luau?.trata_falhas_roblox ? "Seguro ✅" : "Risco de Crash ❌";
+    const status_conexoes = dados.metricas_luau?.conexoes_seguras ? "Desconectadas ✅" : "Leak Risk 🚩";
+    const estilo = dados.metricas_luau?.estilo_codigo || "Não avaliado";
+
+    return `
+# 🚀 Code Review Luau: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Type Safety** | ${n_type}/10 | ${cor_emoji_nota(n_type)} |
+| **Engine Performance** | ${n_eng}/10 | ${cor_emoji_nota(n_eng)} |
+| **Memory Management** | ${n_mem}/10 | ${cor_emoji_nota(n_mem)} |
+| **Modern Syntax** | ${n_mod}/10 | ${cor_emoji_nota(n_mod)} |
+| **Error Handling** | ${n_err}/10 | ${cor_emoji_nota(n_err)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (Luau)
+| Métrica | Estado |
+| :--- | :--- |
+| **Strict Typing** | ${status_strict} |
+| **Task Library** | ${status_task} |
+| **Falhas Roblox** | ${status_falhas} |
+| **Conexões** | ${status_conexoes} |
+| **Estilo** | ${estilo} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🛡️ Arquitetura e Tipagem
+${dados.analise_detalhada?.types_and_architecture?.trim() || "_Análise não disponível._"}
+
+### ⚙️ Interações com Engine (Roblox)
+${dados.analise_detalhada?.roblox_engine_interactions?.trim() || "_Análise não disponível._"}
+
+### 🌙 Oportunidades em Luau Moderno
+${dados.analise_detalhada?.luau_syntax_opportunities?.trim() || "_Análise não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (Luau-Engine)_ ♟️
+`.trim();
+}
