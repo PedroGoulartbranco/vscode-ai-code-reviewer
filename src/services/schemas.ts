@@ -553,6 +553,56 @@ export const molde_json_luau: ResponseSchema = {
         }
     },
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_luau", "code_smells_encontrados"]
+};
+
+export const molde_json_php: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                type_safety: { type: SchemaType.NUMBER },
+                seguranca_web: { type: SchemaType.NUMBER },
+                arquitetura_psr: { type: SchemaType.NUMBER },
+                modern_syntax: { type: SchemaType.NUMBER },
+                clean_code: { type: SchemaType.NUMBER }
+            },
+            required: ["type_safety", "seguranca_web", "arquitetura_psr", "modern_syntax", "clean_code"]
+        },
+        metricas_php: {
+            type: SchemaType.OBJECT,
+            properties: {
+                usa_strict_types: { type: SchemaType.BOOLEAN },
+                db_seguro_pdo: { type: SchemaType.BOOLEAN },
+                sem_var_dump_die: { type: SchemaType.BOOLEAN },
+                arquitetura_moderna: { type: SchemaType.BOOLEAN},
+                versao_estimada: { type: SchemaType.STRING}
+            },
+            required: ["usa_strict_types", "db_seguro_pdo", "sem_var_dump_die", "arquitetura_moderna", "versao_estimada"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                security_and_types: { type: SchemaType.STRING },
+                architecture_and_standards: { type: SchemaType.STRING },
+                php_modernization_opportunities: { type: SchemaType.STRING }
+            },
+            required: ["security_and_types", "architecture_and_standards", "php_modernization_opportunities"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_php", "code_smells_encontrados"]
 }; 
 
 type template_schemas =  any;
@@ -569,5 +619,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'go': molde_json_go,
     'csharp': molde_json_csharp,
     'lua': molde_json_lua,
-    'luau': molde_json_luau
+    'luau': molde_json_luau,
+    'php': molde_json_php
 };

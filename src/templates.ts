@@ -15,7 +15,8 @@ export const listaTemplates: Record<string, template_json> = {
     'go': template_go,
     'csharp': template_csharp,
     'lua': template_lua,
-    'luau': template_luau
+    'luau': template_luau,
+    'php': template_php
 };
 
 export function template_html(dados: any)  {
@@ -825,5 +826,84 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (Luau-Engine)_ ♟️
+`.trim();
+}
+
+export function template_php(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_type = parseNota(dados.notas?.type_safety);
+    const n_seg = parseNota(dados.notas?.seguranca_web);
+    const n_arq = parseNota(dados.notas?.arquitetura_psr);
+    const n_mod = parseNota(dados.notas?.modern_syntax);
+    const n_clean = parseNota(dados.notas?.clean_code);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_type, n_seg, n_arq, n_mod, n_clean];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_strict = dados.metricas_php?.usa_strict_types ? "Strict ✅" : "Inseguro ⚠️";
+    const status_pdo = dados.metricas_php?.db_seguro_pdo ? "PDO OK ✅" : "SQL Injection Risk 🚨";
+    const status_debug = dados.metricas_php?.sem_var_dump_die ? "Limpo ✅" : "Debug Lixo ❌";
+    const status_arq = dados.metricas_php?.arquitetura_moderna ? "PSR/OOP ✅" : "Espaguete 🚩";
+    const versao = dados.metricas_php?.versao_estimada || "Não identificada";
+
+    return `
+# 🐘 Code Review PHP: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Type Safety** | ${n_type}/10 | ${cor_emoji_nota(n_type)} |
+| **Segurança Web** | ${n_seg}/10 | ${cor_emoji_nota(n_seg)} |
+| **Arquitetura (PSR)** | ${n_arq}/10 | ${cor_emoji_nota(n_arq)} |
+| **Modern Syntax** | ${n_mod}/10 | ${cor_emoji_nota(n_mod)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (PHP)
+| Métrica | Estado |
+| :--- | :--- |
+| **Strict Types** | ${status_strict} |
+| **SQL (PDO)** | ${status_pdo} |
+| **Debug Limpo** | ${status_debug} |
+| **Arquitetura** | ${status_arq} |
+| **Versão** | ${versao} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### 🛡️ Segurança e Tipagem
+${dados.analise_detalhada?.security_and_types?.trim() || "_Análise não disponível._"}
+
+### 🏗️ Arquitetura e Padrões (PSR)
+${dados.analise_detalhada?.architecture_and_standards?.trim() || "_Análise não disponível._"}
+
+### ⚡ Oportunidades de Modernização (PHP 8+)
+${dados.analise_detalhada?.php_modernization_opportunities?.trim() || "_Análise não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (PHP-Engine)_ ♟️
 `.trim();
 }
