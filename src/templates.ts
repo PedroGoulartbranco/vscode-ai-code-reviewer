@@ -16,7 +16,8 @@ export const listaTemplates: Record<string, template_json> = {
     'csharp': template_csharp,
     'lua': template_lua,
     'luau': template_luau,
-    'php': template_php
+    'php': template_php,
+    'ruby': template_ruby
 };
 
 export function template_html(dados: any)  {
@@ -905,5 +906,84 @@ ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer (PHP-Engine)_ ♟️
+`.trim();
+}
+
+export function template_ruby(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_idio = parseNota(dados.notas?.ruby_idiomatic);
+    const n_perf = parseNota(dados.notas?.activerecord_perf);
+    const n_seg = parseNota(dados.notas?.seguranca);
+    const n_oop = parseNota(dados.notas?.arquitetura_oop);
+    const n_clean = parseNota(dados.notas?.clean_code);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_idio, n_perf, n_seg, n_oop, n_clean];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_n1 = dados.metricas_ruby?.sem_n_plus_one ? "Otimizado ✅" : "N+1 Query Risk ⚠️";
+    const status_orm = dados.metricas_ruby?.orm_seguro ? "Seguro ✅" : "SQL Injection Risk 🚨";
+    const status_debug = dados.metricas_ruby?.sem_debug_code ? "Limpo ✅" : "Debug Lixo (Pry) ❌";
+    const status_oop = dados.metricas_ruby?.arquitetura_desacoplada ? "SOLID/DRY ✅" : "Espaguete 🚩";
+    const versao = dados.metricas_ruby?.versao_estimada || "Não identificada";
+
+    return `
+# 💎 Code Review Ruby: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Ruby Idiomatic** | ${n_idio}/10 | ${cor_emoji_nota(n_idio)} |
+| **ActiveRecord Perf** | ${n_perf}/10 | ${cor_emoji_nota(n_perf)} |
+| **Segurança** | ${n_seg}/10 | ${cor_emoji_nota(n_seg)} |
+| **Arquitetura OOP** | ${n_oop}/10 | ${cor_emoji_nota(n_oop)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Runtime (Ruby)
+| Métrica | Estado |
+| :--- | :--- |
+| **N+1 Queries** | ${status_n1} |
+| **ORM Seguro** | ${status_orm} |
+| **Debug Limpo** | ${status_debug} |
+| **Arquitetura** | ${status_oop} |
+| **Versão** | ${versao} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### 💎 Padrões Idiomáticos (Rubyismo)
+${dados.analise_detalhada?.idiomatic_patterns?.trim() || "_Análise não disponível._"}
+
+### 🛡️ ActiveRecord e Segurança
+${dados.analise_detalhada?.activerecord_and_security?.trim() || "_Análise não disponível._"}
+
+### 🏗️ Arquitetura e Refatoração
+${dados.analise_detalhada?.architecture_and_refactoring?.trim() || "_Análise não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (Ruby-Engine)_ ♟️
 `.trim();
 }
