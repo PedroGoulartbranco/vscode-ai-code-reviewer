@@ -1,42 +1,37 @@
-# 🤖 vscode-ai-code-reviewer (VS Code Extension)
+# 🤖 Gemini Code Reviewer (VS Code Extension)
 
-A Visual Studio Code extension named **AI Code Reviewer** that transforms your editor into a high-level Pair Programming partner.
+The **Gemini Code Reviewer** transforms your VS Code into a high-level Senior Pair Programming partner. Using the Google Gemini API, this extension performs structured, secure, and detailed code reviews directly within your development environment.
 
-> ⚠️ **Status:** Under active development (Work In Progress 🚧). The source code is being built and refactored daily.
+> ⚠️ **Status:** Under active development. The analysis engine is being expanded daily.
 
-Leveraging the power of the **Google Gemini API**, this extension acts as a Senior Software Engineer, performing automated and structured Code Reviews directly within your development environment.
+## ✨ Engine Highlights
+* **Multi-language Analysis:** Robust support for Go, TypeScript, C#, Lua, Luau, PHP, Ruby, Python, Java, C, C++, and HTML/CSS.
+* **Smart Scoring System:** Automated metric calculation with visual status (Emoji-based).
+* **Prompt Firewall:** Active security layer against *Prompt Injection* attacks.
+* **Professional Reports:** Generation of Markdown dashboards featuring technical analysis, *code smells* detection, and practical refactoring suggestions.
+* **API Resilience:** Graceful handling of API rate limits and network errors.
 
-## ✨ Features (Already Implemented)
+## 🛠️ Supported Languages
 
-Although in its early stages, the core engine already includes:
-
-* **Intelligent Analysis (HTML/CSS):** Deep evaluation of Semantics, Syntax, Styling (inline CSS detection), and Code Organization.
-* **Markdown Dashboard:** Generation of rich visual reports side-by-side (`showPreviewToSide`), featuring a highlighted **General Score** and categorized feedback.
-* **Prompt Shielding (Security First):** Active defense against *Prompt Injection* attacks (malicious comments within code attempting to bypass the grading system).
-* **API Resilience:** Intelligent handling of request limits (HTTP 429 - *Rate Limit*), ensuring the extension notifies the user gracefully instead of failing.
+| Category | Languages |
+| :--- | :--- |
+| **Web/Backend** | TypeScript, JavaScript, PHP, Ruby, Go, C#, Java |
+| **Systems** | C, C++, Python |
+| **Gaming/Scripts** | Lua, Luau |
+| **Markup/Style** | HTML, CSS |
 
 ## 🚀 Roadmap
 
-## 🚀 Roadmap
-
-- [x] **Generative API Integration:** Core engine connected to Google Gemini.
-- [x] **Smart Scoring System:** Logic for automated grading and average calculation.
-- [x] **Prompt Firewall:** Security layer against Prompt Injection and unauthorized commands.
-- [x] **API Key Configuration:** Secure user-defined key storage via VS Code settings.
-- [x] **HTML Analysis:** Full support for semantic and structural HTML review.
-- [x] **CSS Styling Review:** Dedicated analysis for layout, responsiveness, and best practices.
-- [ ] **Multi-language Support:** Expanding reviews to JavaScript, TypeScript, and Python.
-- [ ] **Model Selection:** Toggle between different models (e.g., `gemini-2.5-flash` vs `flash-lite`).
-- [ ] **VS Code Marketplace Publication:** Official release for the developer community.
+- [x] **Core Engine:** Google Gemini integration and scoring system.
+- [x] **Multi-language Support:** Language support roadmap completed (including PHP and Ruby).
+- [ ] **Model Selection:** Toggle between `Flash` and `Pro` models via settings.
+- [ ] **Marketplace Release:** Official release on the VS Code Marketplace.
 
 ## ⚙️ Local Setup
 
-*(Installation instructions via `.vsix` will be added once the first beta version is finalized).*
+To contribute or run the project locally:
 
-To run the project locally for development:
-1. Clone the repository.
-2. Run `npm install`.
-3. Press `F5` in VS Code to launch the **Extension Development Host** window.
-
----
-*Developed with TypeScript and Artificial Intelligence.* ♟️🚀
+1. Clone this repository.
+2. Install the dependencies:
+   ```bash
+   npm install
