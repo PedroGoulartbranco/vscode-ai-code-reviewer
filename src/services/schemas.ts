@@ -632,7 +632,7 @@ export const molde_json_ruby: ResponseSchema = {
                 arquitetura_desacoplada: { type: SchemaType.BOOLEAN},
                 versao_estimada: { type: SchemaType.STRING}
             },
-            required: ["sem_n_plus_one", "orm_seguro ", "sem_debug_code", "arquitetura_desacoplada", "versao_estimada"]
+            required: ["sem_n_plus_one", "orm_seguro", "sem_debug_code", "arquitetura_desacoplada", "versao_estimada"]
         },
         analise_detalhada: {
             type: SchemaType.OBJECT,

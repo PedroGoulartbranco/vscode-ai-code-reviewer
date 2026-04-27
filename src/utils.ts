@@ -76,3 +76,15 @@ export async function mensagem_erro_chave(mensagem_erro: string = "Gemini API Ke
         "valido": false
     };
 }
+
+export async function pegar_idioma() {
+    const config = vscode.workspace.getConfiguration('aiReviewer');
+    const idioma = config.get<string>('language');
+    return String(idioma);
+}
+
+export const instrucoes_idioma: Record<string, string> = {
+    "English": "CRITICAL: The JSON structure (keys) must remain EXACTLY as provided. ONLY translate the content (values) inside the JSON into English. Do not rename keys like 'analise_detalhada', 'notas', 'metricas_sql', 'metricas_ruby', etc.",
+    "Portuguese (Brazilian)": "CRITICAL: A estrutura do JSON (as chaves) deve permanecer IDÊNTICA. Traduza APENAS o conteúdo (valores) dentro do JSON para Português. NÃO altere nomes de chaves como 'analise_detalhada', 'notas', 'metricas_sql', 'metricas_ruby', etc.",
+    "Spanish": "CRITICAL: La estructura del JSON (claves) debe permanecer EXACTAMENTE igual. SOLO traduzca el contenido (valores) dentro del JSON al Español. NO cambie los nombres de las claves como 'analise_detalhada', 'notas', 'metricas_sql', 'metricas_ruby', etc."
+};
