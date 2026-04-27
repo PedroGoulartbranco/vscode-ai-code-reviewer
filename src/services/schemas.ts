@@ -655,6 +655,56 @@ export const molde_json_ruby: ResponseSchema = {
     required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_ruby", "code_smells_encontrados"]
 }; 
 
+export const molde_json_sql: ResponseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        nome_arquivo: {
+            type: SchemaType.STRING,
+            description: "Nome do arquivo analisado"
+        },
+        notas: {
+            type: SchemaType.OBJECT,
+            properties: {
+                performance_sargability: { type: SchemaType.NUMBER },
+                arquitetura_legibilidade: { type: SchemaType.NUMBER },
+                concorrencia_integridade: { type: SchemaType.NUMBER },
+                seguranca: { type: SchemaType.NUMBER },
+                clean_code_sql: { type: SchemaType.NUMBER }
+            },
+            required: ["performance_sargability", "arquitetura_legibilidade", "concorrencia_integridade", "seguranca", "clean_code_sql"]
+        },
+        metricas_sql: {
+            type: SchemaType.OBJECT,
+            properties: {
+                query_sargable: { type: SchemaType.BOOLEAN },
+                usa_ctes: { type: SchemaType.BOOLEAN },
+                protegido_sqli: { type: SchemaType.BOOLEAN },
+                transacional_seguro: { type: SchemaType.BOOLEAN},
+                dialect: { type: SchemaType.STRING}
+            },
+            required: ["query_sargable", "usa_ctes", "protegido_sqli", "transacional_seguro", "dialect"]
+        },
+        analise_detalhada: {
+            type: SchemaType.OBJECT,
+            properties: {
+                execution_plan_analysis: { type: SchemaType.STRING },
+                concurrency_and_locksy: { type: SchemaType.STRING },
+                schema_and_types: { type: SchemaType.STRING }
+            },
+            required: ["execution_plan_analysis", "concurrency_and_locks", "architecture_and_refactoring"]
+        },
+        code_smells_encontrados: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING } 
+        },
+        sugestoes_refatoracao: {
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING }
+        }
+    },
+    required: ["nome_arquivo", "notas", "analise_detalhada", "sugestoes_refatoracao", "metricas_sql", "code_smells_encontrados"]
+}; 
+
 
 type template_schemas =  any;
 
@@ -672,5 +722,6 @@ export const dicionario_schemas: Record<string, template_schemas> = {
     'lua': molde_json_lua,
     'luau': molde_json_luau,
     'php': molde_json_php,
-    'ruby': molde_json_ruby
+    'ruby': molde_json_ruby,
+    'sql': molde_json_sql
 };

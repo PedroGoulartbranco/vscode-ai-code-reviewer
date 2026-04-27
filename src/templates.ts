@@ -987,3 +987,86 @@ ${listaSugestoes}
 _Gerado por Gemini Code Reviewer (Ruby-Engine)_ ♟️
 `.trim();
 }
+
+export function template_sql(dados: any) {
+    const parseNota = (nota: any) => {
+        const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
+        return isNaN(num) ? 0 : num;
+    };
+
+    const n_perf = parseNota(dados.notas?.performance_sargability);
+    const n_arq = parseNota(dados.notas?.arquitetura_legibilidade);
+    const n_conc = parseNota(dados.notas?.concorrencia_integridade);
+    const n_seg = parseNota(dados.notas?.seguranca);
+    const n_clean = parseNota(dados.notas?.clean_code_sql);
+
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
+
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const notasParaMedia = [n_perf, n_arq, n_conc, n_seg, n_clean];
+    const media_geral = calcular_media(notasParaMedia);
+
+    const status_sarg = dados.metricas_sql?.query_sargable ? "Sargable ✅" : "Full Scan Risk ⚠️";
+    const status_cte = dados.metricas_sql?.usa_ctes ? "Modular (CTE) ✅" : "Subqueries ⚠️";
+    const status_sqli = dados.metricas_sql?.protegido_sqli ? "Seguro ✅" : "SQL Injection 🚨";
+    const status_trans = dados.metricas_sql?.transacional_seguro ? "Transacional ✅" : "Auto-commit 🚩";
+    const dialect = dados.metricas_sql?.dialect || "Não identificado";
+
+    const analise_plan = dados.analise_detalhada?.execution_plan_analysis;
+    const analise_conc = dados.analise_detalhada?.concurrency_and_locks || dados.analise_detalhada?.concurrency_and_locksy;
+    const analise_schema = dados.analise_detalhada?.schema_and_types || dados.analise_detalhada?.architecture_and_refactoring;
+
+    return `
+# 🗄️ Code Review SQL: \`${dados.nome_arquivo || "arquivo_desconhecido"}\`
+
+| Critério | Nota | Status |
+| :--- | :---: | :---: |
+| **Performance (Sargability)** | ${n_perf}/10 | ${cor_emoji_nota(n_perf)} |
+| **Arquitetura e Legibilidade** | ${n_arq}/10 | ${cor_emoji_nota(n_arq)} |
+| **Concorrência e Integridade** | ${n_conc}/10 | ${cor_emoji_nota(n_conc)} |
+| **Segurança (SQLi)** | ${n_seg}/10 | ${cor_emoji_nota(n_seg)} |
+| **Clean Code** | ${n_clean}/10 | ${cor_emoji_nota(n_clean)} |
+
+---
+
+## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
+
+## 📏 Métricas de Database (SQL)
+| Métrica | Estado |
+| :--- | :--- |
+| **Query Sargable** | ${status_sarg} |
+| **Uso de CTEs** | ${status_cte} |
+| **Proteção SQLi** | ${status_sqli} |
+| **Transações** | ${status_trans} |
+| **Dialeto** | ${dialect} |
+
+---
+
+## 🔍 Análise Detalhada
+
+### ⚡ Plano de Execução e Índices
+${analise_plan?.trim() || "_Análise não disponível._"}
+
+### 🔒 Concorrência, Locks e Transações
+${analise_conc?.trim() || "_Análise não disponível._"}
+
+### 🏗️ Schema, Tipos e Arquitetura
+${analise_schema?.trim() || "_Análise não disponível._"}
+
+---
+
+## ⚠️ Code Smells Encontrados
+${listaSmells}
+
+## 🚀 Sugestões de Refatoração
+${listaSugestoes}
+
+---
+_Gerado por Gemini Code Reviewer (SQL-Engine)_ ♟️
+`.trim();
+}
