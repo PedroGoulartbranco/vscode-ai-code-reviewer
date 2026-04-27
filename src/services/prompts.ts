@@ -368,8 +368,8 @@ Sua tarefa é realizar um Code Review focado em Idiomatic Go, concorrência segu
 4. **Gerenciamento de Recursos:** Garanta o uso de 'defer' logo após a aquisição do recurso para fechar arquivos, conexões e locks (mutexes).
 5. **Performance e Memória:** Avalie a escolha entre ponteiros vs valores (evitando onerar o Garbage Collector) e verifique a pré-alocação de Slices e Maps usando 'make' quando a capacidade é previsível.
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -416,8 +416,8 @@ Sua tarefa é realizar um Code Review rigoroso focado em código idiomático C#,
 4. **C# Moderno e Null Safety:** Verifique o uso de recursos modernos como Pattern Matching, Records (para DTOs e dados imutáveis), e operadores de coalescência nula ('??', '?.'). Avalie o tratamento de referências nulas (Nullable Reference Types).
 5. **Arquitetura e Injeção de Dependência:** Avalie se as dependências estão sendo injetadas adequadamente via construtor (DI) ao invés de instanciadas com 'new' dentro de serviços ou controllers.
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -461,8 +461,8 @@ Sua tarefa é realizar um Code Review focado em performance, gerenciamento de me
 4. **Design de Módulos:** Garanta que módulos estão sendo construídos retornando uma tabela local (Module Pattern) em vez de usar globals ou a função obsoleta 'module()'.
 5. **Performance e LuaJIT:** Evite concatenação de strings dentro de loops (exija 'table.concat'), sinalize chamadas recursivas não otimizadas (tail calls) e avalie padrões que possam prejudicar a compilação JIT.
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -510,8 +510,8 @@ Sua tarefa é realizar um Code Review focado em tipagem estática (Typechecking)
 5. **Integrações Críticas (Roblox API):** Chamadas que acessam a rede ou podem falhar (como DataStoreService, HttpService, ou carregamento de assets) DEVEM estar encapsuladas em 'pcall'.
 6. Código Morto e Limpeza (Dead Code): Identifique e penalize rigorosamente a presença de "coisas inúteis", como variáveis locais declaradas e não utilizadas, chamadas de 'GetService' ociosas, funções nunca invocadas, lógica redundante e 'print()' ou 'warn()' deixados por esquecimento durante o debug. O código deve ser enxuto.
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -559,8 +559,8 @@ Sua tarefa é realizar um Code Review rigoroso focado em tipagem estrita, segura
 5. **Gerenciamento de Memória e Performance:** Em loops pesados ou retornos volumosos de banco de dados, sugira o uso de Generators ('yield') no lugar de carregar tudo em memória num único array.
 6. **Clean Code e Tratamento de Erros:** Penalize funções de debug ('var_dump()', 'dd()', 'print_r()') e paradas abruptas ('die()', 'exit()'). Exija o lançamento e a captura de Exceções ('try/catch'). Remova variáveis, métodos ou imports ('use') não utilizados.
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -608,8 +608,8 @@ Sua tarefa é realizar um Code Review focado na legibilidade (matz's philosophy)
 5. **Modernidade (Ruby 3+):** Incentive o uso de 'pattern matching' (case/in), Keyword Arguments explícitos, o operador '=>' (hash shorthand) e tipagem opcional com RBS/Sorbet se aplicável.
 6. **Clean Code e Debug:** Penalize métodos com mais de 10-15 linhas. Verifique a nomeação (snake_case vs CamelCase). Alerta máximo contra código morto e ferramentas de debug esquecidas no código ('binding.pry', 'puts', 'p').
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -657,8 +657,8 @@ Sua tarefa é realizar um Code Review focado em performance extrema, plano de ex
 5. **Transações e Concorrência:** Verifique o uso correto de blocos de transação ('BEGIN/COMMIT'). Para lógicas de atualização crítica (saldos, estoques), sugira Row-Level Locking ('SELECT ... FOR UPDATE') para evitar Race Conditions.
 6. **Integridade e Tipagem:** Avalie a consistência das Constraints (FK, NOT NULL, UNIQUE, CHECK). Verifique se os tipos de dados são eficientes (ex: evitar VARCHAR(255) indiscriminado, preferir BIGINT para IDs e TIMESTAMPTZ para datas).
 
-\${regras_seguranca}
-\${regras_formato}
+${regras_seguranca}
+${regras_formato}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {

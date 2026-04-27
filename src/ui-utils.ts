@@ -29,5 +29,6 @@ export function mostrar_erro(erro: any) {
         vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
     } else {
         vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
+        console.log(erro);
     }
 }

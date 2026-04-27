@@ -691,7 +691,7 @@ export const molde_json_sql: ResponseSchema = {
                 concurrency_and_locksy: { type: SchemaType.STRING },
                 schema_and_types: { type: SchemaType.STRING }
             },
-            required: ["execution_plan_analysis", "concurrency_and_locks", "architecture_and_refactoring"]
+            required: ["execution_plan_analysis", "concurrency_and_locksy", "schema_and_types"]
         },
         code_smells_encontrados: {
             type: SchemaType.ARRAY,

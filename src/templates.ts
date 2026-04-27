@@ -17,7 +17,8 @@ export const listaTemplates: Record<string, template_json> = {
     'lua': template_lua,
     'luau': template_luau,
     'php': template_php,
-    'ruby': template_ruby
+    'ruby': template_ruby,
+    'sql': template_sql
 };
 
 export function template_html(dados: any)  {
