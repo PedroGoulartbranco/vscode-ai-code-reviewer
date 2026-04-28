@@ -21,12 +21,20 @@ export const listaTemplates: Record<string, template_json> = {
     'sql': template_sql
 };
 
-export function template_html(dados: any)  {
-    const listaSugestoes = dados.sugestoes
-        .map((s: string) => `- ${s.trim()}`)
-        .join('\n');
+export function template_html(dados: any) {
+    const listaSugestoes = dados.sugestoes_refatoracao
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
 
-    const media_geral = calcular_media([dados.notas.semantica, dados.notas.organizacao, dados.notas.boas_praticas]);
+    const listaSmells = dados.code_smells_encontrados
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
+
+    const media_geral = calcular_media([
+        dados.notas.semantica, 
+        dados.notas.organizacao, 
+        dados.notas.boas_praticas
+    ]);
 
     return `
 # 🛡️ Code Review: \`${dados.nome_arquivo}\`
@@ -54,33 +62,38 @@ ${dados.analise_detalhada.estilos.trim()}
 
 ---
 
+## 🚨 Code Smells Detectados
+${listaSmells}
+
+---
+
 ## 💡 Caminho para Melhoria
 ${listaSugestoes}
 
 ---
 _Gerado por Gemini Code Reviewer_ ♟️
 `.trim();
-};
+}
 
 export function template_css(dados: any) {
-    // Processamento das listas
+    // Processamento das listas com tratamento defensivo
     const listaSugestoes = dados.sugestoes_refatoracao
-        .map((s: string) => `- 💡 ${s.trim()}`)
-        .join('\n');
+        ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
+        .join('\n') || "_Nenhuma sugestão no momento._";
 
     const listaSmells = dados.code_smells_encontrados
-        .map((s: string) => `- 🚨 ${s.trim()}`)
-        .join('\n');
+        ?.map((s: string) => `- 🚨 ${s?.trim() || "Problema não especificado"}`)
+        .join('\n') || "_Nenhum problema grave detectado._";
 
     const notasParaMedia = [
-        dados.notas.arquitetura,
-        dados.notas.manutenibilidade,
-        dados.notas.especificidade,
-        dados.notas.responsividade
+        dados.notas?.arquitetura || 0,
+        dados.notas?.manutenibilidade || 0,
+        dados.notas?.especificidade || 0,
+        dados.notas?.responsividade || 0
     ];
+    
     const media_geral = calcular_media(notasParaMedia);
-
-    const usaVar = dados.metricas_css.usa_variaveis ? "Sim ✅" : "Não ❌";
+    const usaVar = dados.metricas_css?.usa_variaveis ? "Sim ✅" : "Não ❌";
 
     return `
 # 🎨 Code Review CSS: \`${dados.nome_arquivo}\`
@@ -97,8 +110,8 @@ export function template_css(dados: any) {
 ## 📊 Média Geral: \`${media_geral.toFixed(2)}/10\` ${cor_emoji_nota(media_geral)}
 
 ## 📏 Métricas Técnicas
-- **Uso de \`!important\`:** ${dados.metricas_css.qtd_important} ocorrência(s)
-- **Profundidade de Seletores:** Máximo de ${dados.metricas_css.profundidade_maxima} níveis
+- **Uso de \`!important\`:** ${dados.metricas_css?.qtd_important ?? 0} ocorrência(s)
+- **Profundidade de Seletores:** Máximo de ${dados.metricas_css?.profundidade_maxima ?? 0} níveis
 - **Usa Variáveis CSS:** ${usaVar}
 
 ---
@@ -106,17 +119,17 @@ export function template_css(dados: any) {
 ## 🔍 Análise Detalhada
 
 ### 🏗️ Arquitetura e Seletores
-${dados.analise_detalhada.arquitetura_e_seletores.trim()}
+${dados.analise_detalhada.arquitetura_e_seletores?.trim() || "Sem análise disponível."}
 
 ### 🛠️ Boas Práticas e Reuso
-${dados.analise_detalhada.boas_praticas_e_reuso.trim()}
+${dados.analise_detalhada.boas_praticas_e_reuso?.trim() || "Sem análise disponível."}
 
 ---
 
 ## ⚠️ Code Smells Encontrados
-${listaSmells || "_Nenhum problema grave detectado._"}
+${listaSmells}
 
-## 🚀 Sugestões de Refatoração
+## 🚀 Sugestões de Refatoracao
 ${listaSugestoes}
 
 ---
