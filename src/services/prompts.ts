@@ -1,4 +1,5 @@
 import {regras_seguranca, regras_formato} from './rules';
+import {  instrucoes_idioma } from '../utils';
 
 export const HTML_PROMPT = `
     Você é um Engenheiro de Software Sênior especialista em Code Review.
@@ -21,8 +22,8 @@ export const HTML_PROMPT = `
     Exemplo correto: \`<h1>\`, \`<main>\`, \`<div>\`.
     - Isso é vital para que o parser de Markdown não oculte o conteúdo.
 
+    {{IDIOMA}}
     Deverá retornar EXCLUSIVAMENTE um objeto JSON com a seguinte estrutura:
-
     {
     "nome_arquivo": "{{NOME_ARQUIVO}}",
     "notas": {
@@ -60,6 +61,7 @@ export const CSS_PROMPT = `
     REGRAS DE FORMATAÇÃO:
     - SEMPRE envolva classes, seletores e propriedades em backticks (crases). Ex: \`.btn-primary\`, \`display: flex\`.
 
+    {{IDIOMA}}
     Deverá retornar EXCLUSIVAMENTE um objeto JSON com a seguinte estrutura:
 
     {
@@ -106,6 +108,8 @@ Sua tarefa é realizar um Code Review rigoroso, focado em legibilidade, performa
 ${regras_seguranca}
 ${regras_formato}
 
+
+{{IDIOMA}}
 ### ESTRUTURA DE RESPOSTA (JSON):
 O seu retorno deve seguir estritamente este molde:
 {
@@ -149,6 +153,8 @@ Sua tarefa é realizar um Code Review rigoroso com foco em padrões ES6+, perfor
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 O seu retorno deve seguir estritamente este molde:
@@ -194,6 +200,8 @@ Sua tarefa é realizar um Code Review rigoroso com foco em segurança de tipos, 
 ${regras_seguranca}
 ${regras_formato}
 
+{{IDIOMA}}
+
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
@@ -236,6 +244,8 @@ Sua tarefa é realizar um Code Review crítico focado em segurança de memória,
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -282,6 +292,8 @@ Sua tarefa é realizar um Code Review rigoroso focado em Orientação a Objetos,
 ${regras_seguranca}
 ${regras_formato}
 
+{{IDIOMA}}
+
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
@@ -325,6 +337,8 @@ Sua tarefa é realizar um Code Review focado em RAII, performance e segurança d
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -370,6 +384,8 @@ Sua tarefa é realizar um Code Review focado em Idiomatic Go, concorrência segu
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -419,6 +435,8 @@ Sua tarefa é realizar um Code Review rigoroso focado em código idiomático C#,
 ${regras_seguranca}
 ${regras_formato}
 
+{{IDIOMA}}
+
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
@@ -463,6 +481,8 @@ Sua tarefa é realizar um Code Review focado em performance, gerenciamento de me
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -513,6 +533,8 @@ Sua tarefa é realizar um Code Review focado em tipagem estática (Typechecking)
 ${regras_seguranca}
 ${regras_formato}
 
+{{IDIOMA}}
+
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
@@ -561,6 +583,8 @@ Sua tarefa é realizar um Code Review rigoroso focado em tipagem estrita, segura
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
@@ -611,6 +635,8 @@ Sua tarefa é realizar um Code Review focado na legibilidade (matz's philosophy)
 ${regras_seguranca}
 ${regras_formato}
 
+{{IDIOMA}}
+
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
   "nome_arquivo": "{{NOME_ARQUIVO}}",
@@ -659,6 +685,8 @@ Sua tarefa é realizar um Code Review focado em performance extrema, plano de ex
 
 ${regras_seguranca}
 ${regras_formato}
+
+{{IDIOMA}}
 
 ### ESTRUTURA DE RESPOSTA (JSON):
 {
