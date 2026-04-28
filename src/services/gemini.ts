@@ -30,12 +30,13 @@ export class Gemini_Bot {
     }
     async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
         try {
-            let idioma = pegar_idioma();
+            let idioma = await pegar_idioma();
+            console.log(idioma);
             idioma = (instrucoes_idioma as any)[String(idioma)];
             const prompt_final = dicionario_prompts[linguagem] 
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo)
-                .replace('{{IDIOMA}}', codigo);
+                .replace('{{IDIOMA}}', idioma);
             const modelo = this.criar_modelo(dicionario_schemas[linguagem]);
             const resultado = await modelo.generateContent(prompt_final);
             return JSON.parse(resultado.response.text());
