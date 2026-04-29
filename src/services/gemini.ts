@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript, dicionario_schemas } from './schemas';
 import { mostrar_erro } from '../ui-utils';
 import { pegar_idioma,  instrucoes_idioma} from '../utils';
+import { linguagens_diponiveis } from './rules';
 
 export class Gemini_Bot {
     private chave: string;
@@ -30,6 +31,9 @@ export class Gemini_Bot {
     }
     async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
         try {
+            if (!linguagens_diponiveis.includes(linguagem)) {
+                throw new Error("Linguagem não reconhecida");
+            }
             let idioma = await pegar_idioma();
             let idioma_instrucao = (instrucoes_idioma as any)[String(idioma)];
             const prompt_final = dicionario_prompts[linguagem] 

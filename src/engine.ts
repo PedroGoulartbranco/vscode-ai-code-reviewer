@@ -13,7 +13,7 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
             progress.report({ message: `Gerando revisão ${linguagem}...` });
             try {
                 let resultado = await gemini.gerar_revisao(codigo, nome_arquivo, linguagem);
-               
+                
                 mostrar_revisao(resultado.revisao, linguagem, resultado.idioma);
                 
             } catch (erro) {

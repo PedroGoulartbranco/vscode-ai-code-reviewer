@@ -10,3 +10,5 @@ export const regras_formato = `
     - O formato deve seguir estritamente o schema definido.
     - IMPORTANTE: Em TODOS os campos de texto da resposta (como 'analise_detalhada', 'code_smells_encontrados' e 'sugestoes_refatoracao'), você DEVE envolver nomes de classes, métodos, interfaces, propriedades e qualquer termo técnico em crases (\`).
 `;
+
+export const linguagens_diponiveis = ["html", "css", "python", "javascript", "typescript", "c", "java", "cpp", "csharp", "lua", "luau", "php", "ruby", "go", "sql"];
