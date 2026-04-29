@@ -12,9 +12,9 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
         }, async (progress) => {
             progress.report({ message: `Gerando revisão ${linguagem}...` });
             try {
-                let json_revisao_codigo = await gemini.gerar_revisao(codigo, nome_arquivo, linguagem);
+                let resultado = await gemini.gerar_revisao(codigo, nome_arquivo, linguagem);
                
-                mostrar_revisao(json_revisao_codigo, linguagem);
+                mostrar_revisao(resultado.revisao, linguagem, resultado.idioma);
                 
             } catch (erro) {
                 vscode.window.showErrorMessage("Falha ao gerar revisão.");

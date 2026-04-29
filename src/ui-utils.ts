@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'; 
-import { template_css, template_html, template_python, listaTemplates } from './templates';
+import { listaTemplates } from './templates';
+import { listaTemplates_English } from './templates_english';
 
 export function cor_emoji_nota(nota: number) {
     if (nota >= 7) {
@@ -11,8 +12,13 @@ export function cor_emoji_nota(nota: number) {
     }
 }
 
-export async function mostrar_revisao(revisao_json: any, linguagem: string) {
-    const markdown = listaTemplates[linguagem](revisao_json);
+export async function mostrar_revisao(revisao_json: any, linguagem: string, idioma: string) {
+    let markdown: any;
+    if (idioma === "English") {
+        markdown = listaTemplates_English[linguagem](revisao_json);
+    } else {
+        markdown = listaTemplates[linguagem](revisao_json);
+    }
     let mostrar = await vscode.workspace.openTextDocument({
         content: markdown,
         language: 'markdown'

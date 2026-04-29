@@ -31,17 +31,20 @@ export class Gemini_Bot {
     async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
         try {
             let idioma = await pegar_idioma();
-            console.log(idioma);
-            idioma = (instrucoes_idioma as any)[String(idioma)];
+            let idioma_instrucao = (instrucoes_idioma as any)[String(idioma)];
             const prompt_final = dicionario_prompts[linguagem] 
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo)
-                .replace('{{IDIOMA}}', idioma);
+                .replace('{{IDIOMA}}', idioma_instrucao);
             const modelo = this.criar_modelo(dicionario_schemas[linguagem]);
             const resultado = await modelo.generateContent(prompt_final);
-            return JSON.parse(resultado.response.text());
+            return {
+                "revisao": JSON.parse(resultado.response.text()),
+                "idioma": idioma
+            };
         } catch (erro: any) {
             mostrar_erro(erro);
+            throw erro;
         }
     }
 }
