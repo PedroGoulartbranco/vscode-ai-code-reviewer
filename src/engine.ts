@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'; 
 import { Gemini_Bot } from './services/gemini';
-import {  mostrar_revisao} from './ui-utils';
+import {  mostrar_revisao, mostrar_erro} from './ui-utils';
 import { verifiar_chave, pedirInputAoUsuario } from './utils';
 
 export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot) {
@@ -17,7 +17,7 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
                 mostrar_revisao(resultado.revisao, linguagem, resultado.idioma);
                 
             } catch (erro) {
-                vscode.window.showErrorMessage("Falha ao gerar revisão.");
+                mostrar_erro(erro);
             }
         });
     } 

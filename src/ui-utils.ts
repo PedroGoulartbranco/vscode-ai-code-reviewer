@@ -33,7 +33,10 @@ export function mostrar_erro(erro: any) {
         vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
     } else if (erro.status >= 500) {
         vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
-    } else {
+    } else if (erro.message === "Linguagem não reconhecida") {
+        vscode.window.showErrorMessage("Essa linguagem não está no nosso banco de dados", "Fechar");
+    }
+    else {
         vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
         console.log(erro);
     }
