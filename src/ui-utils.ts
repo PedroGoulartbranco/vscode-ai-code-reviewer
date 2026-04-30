@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'; 
 import { listaTemplates } from './templates';
 import { listaTemplates_English } from './templates_english';
+import { pegar_idioma, erros_possiveis } from './utils';
 
 export function cor_emoji_nota(nota: number) {
     if (nota >= 7) {
@@ -27,17 +28,18 @@ export async function mostrar_revisao(revisao_json: any, linguagem: string, idio
     await vscode.commands.executeCommand('markdown.showPreview', mostrar.uri);
 }
 
-export function mostrar_erro(erro: any) {
-    console.log("ERRO COMPLETO:", erro);
-    if (erro.status === 429) {
-        vscode.window.showErrorMessage("Limite diário atingido!", "Fechar");
-    } else if (erro.status >= 500) {
-        vscode.window.showErrorMessage("O servidor do Google está instável. Tente novamente em breve.", "Fechar");
+export async function mostrar_erro(erro: any) {
+    let idioma = String(await pegar_idioma());
+    if (erro.status >= 500) {
+        erro.status = 500;
+    }
+    if (erro.status === 429 || erro.status === 500) {
+        vscode.window.showErrorMessage(erros_possiveis[idioma][String(erro.status)], erros_possiveis[idioma]["Fechar"]);
     } else if (erro.message === "Linguagem não reconhecida") {
-        vscode.window.showErrorMessage("Essa linguagem não está no nosso banco de dados", "Fechar");
+        vscode.window.showErrorMessage(erros_possiveis[idioma]["Linguagem não reconhecida"], erros_possiveis[idioma]["Fechar"]);
     }
     else {
-        vscode.window.showErrorMessage("Erro na geração de revisão!", "Fechar");
+        vscode.window.showErrorMessage(erros_possiveis[idioma]["Outros"], erros_possiveis[idioma]["Fechar"]);
         console.log(erro);
     }
 }

@@ -88,3 +88,20 @@ export const instrucoes_idioma: Record<string, string> = {
     "Portuguese (Brazilian)": "CRITICAL: A estrutura do JSON (as chaves) deve permanecer IDÊNTICA. Traduza APENAS o conteúdo (valores) dentro do JSON para Português. NÃO altere nomes de chaves como 'analise_detalhada', 'notas', 'metricas_sql', 'metricas_ruby', etc.",
     "Spanish": "CRITICAL: La estructura del JSON (claves) debe permanecer EXACTAMENTE igual. SOLO traduzca el contenido (valores) dentro del JSON al Español. NO cambie los nombres de las claves como 'analise_detalhada', 'notas', 'metricas_sql', 'metricas_ruby', etc."
 };
+
+export const erros_possiveis: Record<string, Record<string, string>> = {
+    "English": {
+        "429": "Daily limit reached!",
+        "500": "Google server is unstable. Please try again later.",
+        "Linguagem não reconhecida": "This language is not in our database.",
+        "Outro": "Error generating review!",
+        "Fechar": "Close"
+    },
+    "Portuguese (Brazilian)": {
+        "429": "Limite diário atingido!",
+        "500": "O servidor do Google está instável. Tente novamente em breve.",
+        "Linguagem não reconhecida": "Essa linguagem não está no nosso banco de dados",
+        "Outro": "Erro na geração de revisão!",
+        "Fechar": "Fechar"
+    }
+};
