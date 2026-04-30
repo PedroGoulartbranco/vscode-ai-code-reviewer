@@ -6,8 +6,8 @@ import { mostrar_erro } from './ui-utils';
 
 export function activate(context: vscode.ExtensionContext) {
 	let descartavel = vscode.commands.registerCommand('ai-code-reviewer', async () => {
-		const chave = pegar_chave_json();
 		const config = vscode.workspace.getConfiguration('aiReviewer');
+		let chave: any;
 		let retorno_verificacoes = {
 			"chave": "",
 			"valido": false
@@ -17,16 +17,13 @@ export function activate(context: vscode.ExtensionContext) {
 			"codigo": "",
 			"linguagem": ""
 		};
-		
-		if (!chave) {
-			retorno_verificacoes = await mensagem_erro_chave();
-		} else {
-			if (verifiar_chave(chave)) {
-				const gemini = new Gemini_Bot(chave);
-				retorno_verificacoes = {"chave": gemini.chave_string, "valido": true};
-			} else {
-				retorno_verificacoes = await mensagem_erro_chave("Chave API incorreta", "Configurar Novamente");
-			}
+		try {
+			chave = pegar_chave_json();
+			verifiar_chave(chave);
+			const gemini = new Gemini_Bot(chave);
+			retorno_verificacoes = {"chave": gemini.chave_string, "valido": true};
+		} catch (erro) {
+			mostrar_erro(erro);
 		}
 
 		if (retorno_verificacoes.valido) {

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'; 
 import { listaTemplates } from './templates';
 import { listaTemplates_English } from './templates_english';
-import { pegar_idioma, erros_possiveis } from './utils';
+import { pegar_idioma, erros_possiveis, mensagem_erro_chave } from './utils';
 
 export function cor_emoji_nota(nota: number) {
     if (nota >= 7) {
@@ -37,8 +37,8 @@ export async function mostrar_erro(erro: any) {
         vscode.window.showErrorMessage(erros_possiveis[idioma][String(erro.status)], erros_possiveis[idioma]["Fechar"]);
     }
     else if (erro.message) {
-        if (erro.message === "Chave Api não encontrada") {
-
+        if (erro.message === "Chave Api incorreta") {
+            const selecao = await mensagem_erro_chave();
         } else {
             vscode.window.showErrorMessage(erros_possiveis[idioma][erro.message], erros_possiveis[idioma]["Fechar"]);
         }
