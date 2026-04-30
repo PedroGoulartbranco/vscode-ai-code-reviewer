@@ -33,10 +33,15 @@ export async function mostrar_erro(erro: any) {
     if (erro.status >= 500) {
         erro.status = 500;
     }
-    if (erro.status === 429 || erro.status === 500) {
+    if (erro.status) {
         vscode.window.showErrorMessage(erros_possiveis[idioma][String(erro.status)], erros_possiveis[idioma]["Fechar"]);
-    } else if (erro.message === "Linguagem não reconhecida") {
-        vscode.window.showErrorMessage(erros_possiveis[idioma]["Linguagem não reconhecida"], erros_possiveis[idioma]["Fechar"]);
+    }
+    else if (erro.message) {
+        if (erro.message === "Chave Api não encontrada") {
+
+        } else {
+            vscode.window.showErrorMessage(erros_possiveis[idioma][erro.message], erros_possiveis[idioma]["Fechar"]);
+        }
     }
     else {
         vscode.window.showErrorMessage(erros_possiveis[idioma]["Outros"], erros_possiveis[idioma]["Fechar"]);

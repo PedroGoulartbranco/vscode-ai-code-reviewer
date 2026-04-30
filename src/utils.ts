@@ -24,11 +24,7 @@ export function pegar_arquivo_atual() {
             "linguagem": linguagem
         };
     } else {
-        return {
-            "nome": "",
-            "codigo": "",
-            "linguagem": ""
-        };
+        throw new Error("Nenhum arquivo aberto");
     }
 }
 
@@ -95,6 +91,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "500": "Google server is unstable. Please try again later.",
         "Linguagem não reconhecida": "This language is not in our database.",
         "Outro": "Error generating review!",
+        "Nenhum arquivo aberto": "No open files at the moment!",
         "Fechar": "Close"
     },
     "Portuguese (Brazilian)": {
@@ -102,6 +99,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "500": "O servidor do Google está instável. Tente novamente em breve.",
         "Linguagem não reconhecida": "Essa linguagem não está no nosso banco de dados",
         "Outro": "Erro na geração de revisão!",
+        "Nenhum arquivo aberto": "Nenhum arquivo aberto atualmente!",
         "Fechar": "Fechar"
     }
 };
