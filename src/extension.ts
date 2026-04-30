@@ -21,22 +21,14 @@ export function activate(context: vscode.ExtensionContext) {
 			chave = pegar_chave_json();
 			verifiar_chave(chave);
 			const gemini = new Gemini_Bot(chave);
-			retorno_verificacoes = {"chave": gemini.chave_string, "valido": true};
-		} catch (erro) {
-			mostrar_erro(erro);
-		}
-
-		if (retorno_verificacoes.valido) {
-			await config.update('apiKey', retorno_verificacoes.chave, vscode.ConfigurationTarget.Global);
-			const gemini = new Gemini_Bot(chave);
 			try {
 				informacoes_arquivo = pegar_arquivo_atual();
 				decidir_modelo_de_resposta(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini);
 			} catch(erro) {
 				mostrar_erro(erro);
 			}
-		} else {
-			vscode.window.showInformationMessage("Chave incorreta tente novamente");
+		} catch (erro) {
+			mostrar_erro(erro);
 		}
 	}
 
