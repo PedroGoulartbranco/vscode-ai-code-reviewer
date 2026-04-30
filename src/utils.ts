@@ -60,12 +60,21 @@ export async function pedirInputAoUsuario() {
     };
 }
 
-export async function mensagem_erro_chave() {
+export async function mensagem_erro_chave(idioma: String) {
+    let mensagem_erro = "Chave API inválida. Deseja configurar agora?";
+    let mensagem_sim = "Sim";
+    let mensagem_fechar = "Fechar";
+    if (idioma === "English") {
+        mensagem_erro = "Invalid API Key. Do you want to configure it now?";
+        mensagem_sim = "Yes";
+        mensagem_fechar = "Close";
+    }
     const escolha = await vscode.window.showErrorMessage(
-       "Chave API inválida. Deseja configurar agora?", 
-        "Sim", "Fechar" 
+       mensagem_erro, 
+       { modal: false },
+        mensagem_sim, mensagem_fechar 
     );
-    if (escolha) {
+    if (escolha === "Sim" || escolha === "Yes") {
         vscode.commands.executeCommand('workbench.action.openSettings', 'ai-code-reviewer.apiKey');
     }
 }

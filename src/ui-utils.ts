@@ -38,7 +38,7 @@ export async function mostrar_erro(erro: any) {
     }
     else if (erro.message) {
         if (erro.message === "Chave Api incorreta") {
-            const selecao = await mensagem_erro_chave();
+            const selecao = await mensagem_erro_chave(idioma);
         } else {
             vscode.window.showErrorMessage(erros_possiveis[idioma][erro.message], erros_possiveis[idioma]["Fechar"]);
         }
