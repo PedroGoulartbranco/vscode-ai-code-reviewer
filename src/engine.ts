@@ -11,7 +11,7 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
             cancellable: false 
         }, async (progress) => {
             let mensagem_esperando = `Gerando ${linguagem} revisão...`;
-            if (mensagem_esperando === "English") {
+            if (idioma === "English") {
                 mensagem_esperando = `Generating ${linguagem} review...`;
             }
             progress.report({ message: mensagem_esperando });
