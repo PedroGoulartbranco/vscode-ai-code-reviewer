@@ -29,12 +29,11 @@ export class Gemini_Bot {
             },
         });
     }
-    async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string) {
+    async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string, idioma: string) {
         try {
             if (!linguagens_diponiveis.includes(linguagem)) {
                 throw new Error("Linguagem não reconhecida");
             }
-            let idioma = await pegar_idioma();
             let idioma_instrucao = (instrucoes_idioma as any)[String(idioma)];
             const prompt_final = dicionario_prompts[linguagem] 
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
