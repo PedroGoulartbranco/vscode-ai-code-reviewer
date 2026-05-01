@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { mostrar_erro } from './ui-utils';
 
 export function calcular_media(lista_notas: number[]) {
     const numero_notas = lista_notas.length;
@@ -34,6 +35,16 @@ export function verifiar_chave(chave: string) {
         return formato_chave_api.test(chave);
     }
     throw new Error("Chave Api incorreta");
+}
+
+export function pegar_modelo_json(){
+    try {
+        const config = vscode.workspace.getConfiguration('aiReviewer');
+        const modelo = config.get<string>('model');
+        return String(modelo);
+    } catch (erro) {
+        throw new Error("Modelo não reconhecido");
+    }
 }
 
 export function pegar_chave_json() {
@@ -98,6 +109,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "Linguagem não reconhecida": "This language is not in our database.",
         "Outro": "Error generating review!",
         "Nenhum arquivo aberto": "No open files at the moment!",
+        "Modelo não reconhecido": "Error reading the model configuration!",
         "Fechar": "Close"
     },
     "Portuguese (Brazilian)": {
@@ -106,6 +118,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "Linguagem não reconhecida": "Essa linguagem não está no nosso banco de dados",
         "Outro": "Erro na geração de revisão!",
         "Nenhum arquivo aberto": "Nenhum arquivo aberto atualmente!",
+        "Modelo não reconhecido": "Erro na leitura do modelo!",
         "Fechar": "Fechar"
     }
 };

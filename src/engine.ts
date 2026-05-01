@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'; 
 import { Gemini_Bot } from './services/gemini';
 import {  mostrar_revisao, mostrar_erro} from './ui-utils';
-import { verifiar_chave, pedirInputAoUsuario } from './utils';
+import { verifiar_chave, pedirInputAoUsuario, pegar_modelo_json } from './utils';
 
 export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem: string, codigo: string, gemini: Gemini_Bot, idioma: String) {
     try {
@@ -17,8 +17,8 @@ export async function decidir_modelo_de_resposta(nome_arquivo: string, linguagem
             progress.report({ message: mensagem_esperando });
             try {
                 let resultado = await gemini.gerar_revisao(codigo, nome_arquivo, linguagem, String(idioma));
-                
-                mostrar_revisao(resultado.revisao, linguagem, resultado.idioma);
+                let modelo = pegar_modelo_json();
+                mostrar_revisao(resultado.revisao, linguagem, resultado.idioma, modelo);
                 
             } catch (erro) {
                 mostrar_erro(erro);

@@ -3,16 +3,18 @@ import { GoogleGenerativeAI, GenerativeModel, ResponseSchema } from "@google/gen
 import * as vscode from 'vscode';
 import {  molde_json_css, molde_json_html, molde_json_python, molde_json_javascript, dicionario_schemas } from './schemas';
 import { mostrar_erro } from '../ui-utils';
-import { pegar_idioma,  instrucoes_idioma} from '../utils';
+import { instrucoes_idioma, pegar_modelo_json} from '../utils';
 import { linguagens_diponiveis } from './rules';
 
 export class Gemini_Bot {
     private chave: string;
     private genAI: GoogleGenerativeAI;
+    private modelo: String;
 
     constructor(apiKey: string) {
         this.chave = apiKey;
         this.genAI = new GoogleGenerativeAI(apiKey); //Conecta a chave com o google
+        this.modelo = pegar_modelo_json();
     }
 
     get chave_string(): string {
@@ -21,7 +23,7 @@ export class Gemini_Bot {
 
     private criar_modelo(schema: ResponseSchema) {
         return this.genAI.getGenerativeModel({ //Configura o modelo
-            model: "gemini-2.5-flash-lite",
+            model: String(this.modelo),
             generationConfig: {
                 responseMimeType: "application/json",
                 responseSchema: schema,

@@ -13,12 +13,12 @@ export function cor_emoji_nota(nota: number) {
     }
 }
 
-export async function mostrar_revisao(revisao_json: any, linguagem: string, idioma: string) {
+export async function mostrar_revisao(revisao_json: any, linguagem: string, idioma: string, modelo: string) {
     let markdown: any;
     if (idioma === "English") {
         markdown = listaTemplates_English[linguagem](revisao_json);
     } else {
-        markdown = listaTemplates[linguagem](revisao_json);
+        markdown = listaTemplates[linguagem](revisao_json, modelo);
     }
     let mostrar = await vscode.workspace.openTextDocument({
         content: markdown,

@@ -1,7 +1,7 @@
-import { calcular_media} from './utils';
+import { calcular_media, pegar_modelo_json} from './utils';
 import { cor_emoji_nota } from './ui-utils';
 
-type template_json = (dados: any) => string;
+type template_json = (dados: any, modelo: string) => string;
 
 export const listaTemplates: Record<string, template_json> = {
     'html': template_html,
@@ -21,7 +21,7 @@ export const listaTemplates: Record<string, template_json> = {
     'sql': template_sql
 };
 
-export function template_html(dados: any) {
+export function template_html(dados: any, modelo: String) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -71,11 +71,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer_ ♟️
+_Gerado por Gemini Code Reviewer_ ♟️ | Modelo: ${modelo}
 `.trim();
 }
 
-export function template_css(dados: any) {
+export function template_css(dados: any, modelo: string) {
     // Processamento das listas com tratamento defensivo
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
@@ -133,11 +133,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer_ ♟️
+_Gerado por Gemini Code Reviewer_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_python(dados: any) {
+export function template_python(dados: any, modelo: string) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -198,11 +198,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer_ ♟️
+_Gerado por Gemini Code Reviewer_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_javascript(dados: any) {
+export function template_javascript(dados: any, modelo: string) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -262,11 +262,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer_ ♟️
+_Gerado por Gemini Code Reviewer_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_typescript(dados: any) {
+export function template_typescript(dados: any, modelo: string) {
     // 🛡️ Função para higienizar notas (remove "/10" e garante número)
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
@@ -334,11 +334,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (TS-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (TS-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_c(dados: any) {
+export function template_c(dados: any, modelo: string) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -400,11 +400,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (C-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (C-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_java(dados: any) {
+export function template_java(dados: any, modelo: string) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -466,11 +466,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (Java-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (Java-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_cpp(dados: any) {
+export function template_cpp(dados: any, modelo: string) {
     const listaSugestoes = dados.sugestoes_refatoracao
         ?.map((s: string) => `- 💡 ${s?.trim() || "Sugestão vazia"}`)
         .join('\n') || "_Nenhuma sugestão no momento._";
@@ -532,11 +532,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (CPP-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (CPP-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_go(dados: any) {
+export function template_go(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -610,11 +610,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (Go-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (Go-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_csharp(dados: any) {
+export function template_csharp(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -682,11 +682,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (CSharp-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (CSharp-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_lua(dados: any) {
+export function template_lua(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -761,11 +761,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (Lua-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (Lua-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_luau(dados: any) {
+export function template_luau(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -840,11 +840,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (Luau-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (Luau-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_php(dados: any) {
+export function template_php(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -919,11 +919,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (PHP-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (PHP-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_ruby(dados: any) {
+export function template_ruby(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -998,11 +998,11 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (Ruby-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (Ruby-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
 
-export function template_sql(dados: any) {
+export function template_sql(dados: any, modelo: string) {
     const parseNota = (nota: any) => {
         const num = parseFloat(String(nota).replace(/\/10/g, '').trim());
         return isNaN(num) ? 0 : num;
@@ -1081,6 +1081,6 @@ ${listaSmells}
 ${listaSugestoes}
 
 ---
-_Gerado por Gemini Code Reviewer (SQL-Engine)_ ♟️
+_Gerado por Gemini Code Reviewer (SQL-Engine)_ ♟️| Modelo: ${modelo}
 `.trim();
 }
