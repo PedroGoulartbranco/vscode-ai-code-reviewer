@@ -29,6 +29,7 @@ export async function mostrar_revisao(revisao_json: any, linguagem: string, idio
 }
 
 export async function mostrar_erro(erro: any) {
+    console.log(erro);
     let idioma = String(await pegar_idioma());
     if (erro.status >= 500) {
         erro.status = 500;

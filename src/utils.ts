@@ -18,11 +18,13 @@ export function pegar_arquivo_atual() {
         nome_documento = path.basename(nome_documento);
         const codigo = editor.document.getText();
         const linguagem = editor.document.languageId;
+        const numero_Linhas = editor.document.lineCount;
 
         return {
             "nome": nome_documento,
             "codigo": codigo,
-            "linguagem": linguagem
+            "linguagem": linguagem,
+            "numero_linhas": numero_Linhas
         };
     } else {
         throw new Error("Nenhum arquivo aberto");
@@ -52,25 +54,6 @@ export function pegar_chave_json() {
     const chaveSalva = config.get<string>('apiKey');
     return String(chaveSalva);
 }
-
-export async function pedirInputAoUsuario() {
-    const input = await vscode.window.showInputBox({
-        placeHolder: "Insira sua chave API do Gemini",
-        prompt: "O que você quer perguntar?"
-    });
-    if (!input) {
-        return {
-            "chave": "",
-            "valido": false
-        };
-    }
-    let chave_correta = verifiar_chave(String(input));
-    return {
-        "chave": input,
-        "valido": chave_correta
-    };
-}
-
 export async function mensagem_erro_chave(idioma: String) {
     let mensagem_erro = "Chave API inválida. Deseja configurar agora?";
     let mensagem_sim = "Sim";

@@ -16,7 +16,8 @@ export function activate(context: vscode.ExtensionContext) {
 		let informacoes_arquivo = {
 			"nome": "",
 			"codigo": "",
-			"linguagem": ""
+			"linguagem": "",
+			"numero_linhas": 0
 		};
 		try {
 			chave = pegar_chave_json();
@@ -24,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const gemini = new Gemini_Bot(chave);
 			try {
 				informacoes_arquivo = pegar_arquivo_atual();
-				decidir_modelo_de_resposta(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini, String(idioma));
+				decidir_modelo_de_resposta(informacoes_arquivo.nome, informacoes_arquivo.linguagem, informacoes_arquivo.codigo, gemini, String(idioma), Number(informacoes_arquivo.numero_linhas));
 			} catch(erro) {
 				mostrar_erro(erro);
 			}
