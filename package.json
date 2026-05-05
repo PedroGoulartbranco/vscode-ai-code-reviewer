@@ -2,7 +2,7 @@
   "name": "vscode-ai-code-reviewer",
   "displayName": "ai-code-reviewer",
   "description": "An AI-powered code reviewer that identifies bugs and suggests optimizations.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.115.0"
   },
@@ -15,11 +15,11 @@
     "commands": [
       {
         "command": "ai-code-reviewer",
-        "title": "Reviewer Code"
+        "title": "Ai Reviewer Code"
       }
     ],
     "configuration": {
-      "title": "AI Reviewer Configuration",
+      "title": "AI Code Reviewer Configuration",
       "properties": {
         "aiReviewer.apiKey": {
           "type": "string",
