@@ -27,16 +27,23 @@ The engine provides specialized analysis for a wide range of technologies:
 | **Gaming & Scripts** | Lua, Luau                                       |
 | **Markup & Style** | HTML, CSS                                       |
 
-## ⚙️ Local Setup
+## 🚀 How to Use
 
-1.  Clone this repository.
-2.  Install the dependencies:
-    ```bash
-    npm install
-    ```
-3.  Press `F5` to open the Extension Development Host and start reviewing code.
+After installing the extension, follow these simple steps to start your first audit:
 
----
+1.  **Configure your API Key:** Go to `File > Preferences > Settings` (or press `Ctrl+,`), search for **AI Reviewer**, and paste your **Google Gemini API Key**.
+2.  **Open a code file:** Open any source file in one of the supported languages.
+3.  **Start the Review:** * Right-click anywhere inside the editor and select **"Review Code with AI"**.
+    * Alternatively, use the Command Palette (`Ctrl+Shift+P`) and type "Review Code".
+4.  **Analyze the Report:** A new Markdown panel will open instantly with a detailed technical analysis and scoring.
+
+## ⚙️ Available Settings
+
+You can fully customize your experience through the VS Code Settings:
+
+* **API Key:** Your personal Google Gemini credentials.
+* **Model:** Select between different versions of the engine (e.g., `gemini-2.0-flash`, `gemini-1.5-pro`).
+* **Language:** Choose whether the analysis reports should be generated in **English** or **Portuguese**.
 
 ### 📝 Important
 
