@@ -1,6 +1,6 @@
 # 🤖 AI Code Reviewer
 
-![AI Code Reviewer Demo](./assets/demo.gif)
+![AI Code Reviewer Demo](./video_ext.gif)
 
 The **AI Code Reviewer** is a professional VS Code extension that transforms your editor into a high-level Senior Pair Programming environment. Using the Google Gemini API, it provides structured, secure, and deeply technical code audits.
 

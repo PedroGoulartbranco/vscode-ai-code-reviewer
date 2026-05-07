@@ -2,7 +2,12 @@
   "name": "vscode-ai-code-reviewer",
   "displayName": "ai-code-reviewer",
   "description": "An AI-powered code reviewer that identifies bugs and suggests optimizations.",
+  "publisher": "PedroGoulartbranco",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PedroGoulartbranco/vscode-ai-code-reviewer"
+  },
   "engines": {
     "vscode": "^1.115.0"
   },
