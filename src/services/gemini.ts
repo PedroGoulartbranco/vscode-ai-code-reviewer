@@ -28,6 +28,7 @@ export class Gemini_Bot {
                 responseMimeType: "application/json",
                 responseSchema: schema,
                 temperature: 0.2,
+                maxOutputTokens: 2048,
             },
         });
     }

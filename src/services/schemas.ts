@@ -109,9 +109,9 @@ export const molde_json_python: ResponseSchema = {
             type: SchemaType.OBJECT,
             properties: {
                 pythonic_code: { type: SchemaType.STRING },
-                tags_estrutura: { type: SchemaType.STRING }
+                seguranca_e_erros: { type: SchemaType.STRING }
             },
-            required: ["pythonic_code", "tags_estrutura"]
+            required: ["pythonic_code", "seguranca_e_erros"]
         },
         code_smells_encontrados: {
             type: SchemaType.ARRAY,
