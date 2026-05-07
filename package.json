@@ -1,6 +1,6 @@
 {
   "name": "vscode-ai-code-reviewer",
-  "displayName": "Ai Code Reviewer",
+  "displayName": "Ai Code Reviewer (Gemini)",
   "description": "An AI-powered code reviewer that identifies bugs and suggests optimizations.",
   "icon": "icon_ia.png",
   "publisher": "PedroGoulartbranco",
