@@ -104,6 +104,7 @@ Sua tarefa é realizar um Code Review rigoroso, focado em legibilidade, performa
 2. **Eficiência Algorítmica:** Identifique loops desnecessários, uso incorreto de estruturas de dados e sugira otimizações.
 3. **Pythonic Code:** Avalie se o código utiliza os recursos nativos da linguagem da forma correta (list comprehensions, context managers, decorators).
 4. **Segurança e Robustez:** Procure por falhas de tratamento de exceções e vulnerabilidades comuns.
+5. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -150,6 +151,7 @@ Sua tarefa é realizar um Code Review rigoroso com foco em padrões ES6+, perfor
 2. **Assincronismo:** Identifique erros em Promises, uso desnecessário de callbacks ou má gestão de async/await.
 3. **Qualidade de DOM/Node:** Identifique acessos inseguros, falta de tratamento de erros em operações de rede/I/O e poluição de escopo global.
 4. **Performance:** Evite manipulações custosas de DOM ou vazamentos de memória (closures indevidas).
+5. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -196,6 +198,7 @@ Sua tarefa é realizar um Code Review rigoroso com foco em segurança de tipos, 
 2. **Arquitetura:** Avalie a modularização e o uso de Generics.
 3. **Segurança de Tipos:** Identifique casting inseguro ('as unknown as') e falta de validação em tempo de execução (runtime).
 4. **Performance:** Verifique se as estruturas de dados foram bem definidas para evitar conversões desnecessárias.
+5. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -241,6 +244,7 @@ Sua tarefa é realizar um Code Review crítico focado em segurança de memória,
 2. **Performance e Velocidade:** Avalie a eficiência de loops, complexidade de algoritmos e acesso desnecessário à memória.
 3. **Otimização de Variáveis:** Identifique variáveis inúteis, variáveis que podem ser reutilizadas para economizar stack e o uso correto de 'const' e 'static'.
 4. **Segurança Crítica:** Detecte o uso de funções perigosas (ex: gets, strcpy, scanf) e sugira alternativas seguras (fgets, strncpy).
+5. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -288,6 +292,7 @@ Sua tarefa é realizar um Code Review rigoroso focado em Orientação a Objetos,
 3. **Organização e Nomenclatura:** Verifique se segue o padrão Java (PascalCase para classes, camelCase para métodos/variáveis) e se o código está bem estruturado.
 4. **Gestão de Recursos e Performance:** Identifique falta de uso de 'try-with-resources' para fechar Streams/Conexões e o uso ineficiente de Strings (sugira StringBuilder se necessário).
 5. **Reuso e Variáveis:** Identifique variáveis locais redundantes ou atributos de classe que poderiam ser locais para economizar memória na heap.
+6. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -334,6 +339,7 @@ Sua tarefa é realizar um Code Review focado em RAII, performance e segurança d
 2. **Performance e Cópias:** Verifique se objetos grandes estão sendo passados por valor (cópia desnecessária) em vez de passar por referência constante (const &).
 3. **Containers STL:** Identifique o uso de arrays estilo C e sugira containers da STL (std::vector, std::array, std::string).
 4. **Segurança e Modernidade:** Verifique o uso de 'constexpr', 'auto', 'nullptr' e garanta que não haja 'using namespace std;' em headers.
+5. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -381,6 +387,7 @@ Sua tarefa é realizar um Code Review focado em Idiomatic Go, concorrência segu
 3. **Idiomatic Go:** Verifique se o código segue o "Go way": interfaces pequenas (1-2 métodos definidas onde são consumidas), nomes curtos e descritivos, composição em vez de herança, e ausência de getters/setters estilo Java.
 4. **Gerenciamento de Recursos:** Garanta o uso de 'defer' logo após a aquisição do recurso para fechar arquivos, conexões e locks (mutexes).
 5. **Performance e Memória:** Avalie a escolha entre ponteiros vs valores (evitando onerar o Garbage Collector) e verifique a pré-alocação de Slices e Maps usando 'make' quando a capacidade é previsível.
+6. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -431,6 +438,7 @@ Sua tarefa é realizar um Code Review rigoroso focado em código idiomático C#,
 3. **Uso de LINQ e Coleções:** Identifique múltiplas enumerações desnecessárias (IEnumerable) ou alocações excessivas na heap (uso prematuro ou repetido de .ToList() ou .ToArray()).
 4. **C# Moderno e Null Safety:** Verifique o uso de recursos modernos como Pattern Matching, Records (para DTOs e dados imutáveis), e operadores de coalescência nula ('??', '?.'). Avalie o tratamento de referências nulas (Nullable Reference Types).
 5. **Arquitetura e Injeção de Dependência:** Avalie se as dependências estão sendo injetadas adequadamente via construtor (DI) ao invés de instanciadas com 'new' dentro de serviços ou controllers.
+6. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -478,6 +486,7 @@ Sua tarefa é realizar um Code Review focado em performance, gerenciamento de me
 3. **Tratamento de Erros:** Verifique se operações de risco (I/O, chamadas externas) estão encapsuladas de forma segura usando 'pcall' ou 'xpcall', evitando o encerramento abrupto do host.
 4. **Design de Módulos:** Garanta que módulos estão sendo construídos retornando uma tabela local (Module Pattern) em vez de usar globals ou a função obsoleta 'module()'.
 5. **Performance e LuaJIT:** Evite concatenação de strings dentro de loops (exija 'table.concat'), sinalize chamadas recursivas não otimizadas (tail calls) e avalie padrões que possam prejudicar a compilação JIT.
+6. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -528,7 +537,8 @@ Sua tarefa é realizar um Code Review focado em tipagem estática (Typechecking)
 3. **Gerenciamento de Memória (Leaks):** Verifique se conexões de eventos (RBXScriptSignal) estão sendo desconectadas corretamente (via ':Disconnect()', ou padrões como Maid/Janitor/Trove) para evitar memory leaks.
 4. **Sintaxe Moderna Luau:** Avalie se o código aproveita as adições do Luau, como operadores de atribuição composta ('+=', '-='), expressões if-then-else ('local x = if a then b else c' em vez de 'a and b or c') e a palavra-chave 'continue' em loops.
 5. **Integrações Críticas (Roblox API):** Chamadas que acessam a rede ou podem falhar (como DataStoreService, HttpService, ou carregamento de assets) DEVEM estar encapsuladas em 'pcall'.
-6. Código Morto e Limpeza (Dead Code): Identifique e penalize rigorosamente a presença de "coisas inúteis", como variáveis locais declaradas e não utilizadas, chamadas de 'GetService' ociosas, funções nunca invocadas, lógica redundante e 'print()' ou 'warn()' deixados por esquecimento durante o debug. O código deve ser enxuto.
+6. **Código Morto e Limpeza (Dead Code)**: Identifique e penalize rigorosamente a presença de "coisas inúteis", como variáveis locais declaradas e não utilizadas, chamadas de 'GetService' ociosas, funções nunca invocadas, lógica redundante e 'print()' ou 'warn()' deixados por esquecimento durante o debug. O código deve ser enxuto.
+7. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -580,6 +590,7 @@ Sua tarefa é realizar um Code Review rigoroso focado em tipagem estrita, segura
 4. **Arquitetura (PSR, OOP e Namespaces):** Avalie a injeção de dependências pelo construtor em vez de usar 'new' dentro de métodos ou a palavra 'global'. Verifique se o arquivo define um 'namespace' adequado (PSR-4) e penalize a mistura de HTML com lógica de negócio no mesmo arquivo.
 5. **Gerenciamento de Memória e Performance:** Em loops pesados ou retornos volumosos de banco de dados, sugira o uso de Generators ('yield') no lugar de carregar tudo em memória num único array.
 6. **Clean Code e Tratamento de Erros:** Penalize funções de debug ('var_dump()', 'dd()', 'print_r()') e paradas abruptas ('die()', 'exit()'). Exija o lançamento e a captura de Exceções ('try/catch'). Remova variáveis, métodos ou imports ('use') não utilizados.
+7. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -631,6 +642,7 @@ Sua tarefa é realizar um Code Review focado na legibilidade (matz's philosophy)
 4. **Arquitetura Rails Limpa:** Penalize "Fat Models" e "Fat Controllers". Sugira ativamente a extração de lógica complexa para Service Objects, Query Objects ou View Components.
 5. **Modernidade (Ruby 3+):** Incentive o uso de 'pattern matching' (case/in), Keyword Arguments explícitos, o operador '=>' (hash shorthand) e tipagem opcional com RBS/Sorbet se aplicável.
 6. **Clean Code e Debug:** Penalize métodos com mais de 10-15 linhas. Verifique a nomeação (snake_case vs CamelCase). Alerta máximo contra código morto e ferramentas de debug esquecidas no código ('binding.pry', 'puts', 'p').
+7. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
@@ -682,6 +694,7 @@ Sua tarefa é realizar um Code Review focado em performance extrema, plano de ex
 4. **Segurança e SQL Injection:** Tolerância zero para concatenação de strings em variáveis nativas do SQL. Exija parametrização (Prepared Statements). Alerte sobre comandos DDL destrutivos (DROP, TRUNCATE) sem salvaguardas.
 5. **Transações e Concorrência:** Verifique o uso correto de blocos de transação ('BEGIN/COMMIT'). Para lógicas de atualização crítica (saldos, estoques), sugira Row-Level Locking ('SELECT ... FOR UPDATE') para evitar Race Conditions.
 6. **Integridade e Tipagem:** Avalie a consistência das Constraints (FK, NOT NULL, UNIQUE, CHECK). Verifique se os tipos de dados são eficientes (ex: evitar VARCHAR(255) indiscriminado, preferir BIGINT para IDs e TIMESTAMPTZ para datas).
+7. **Agrupamento de Problemas:** Se uma má prática (como Magic Numbers ou nomes de variáveis ruins) se repetir muitas vezes, NÃO liste cada uma. Em vez disso, crie um único item resumindo o problema e cite alguns exemplos.
 
 ${regras_seguranca}
 ${regras_formato}
