@@ -22,15 +22,20 @@ export class Gemini_Bot {
     }
 
     private criar_modelo(schema: ResponseSchema) {
-        return this.genAI.getGenerativeModel({ //Configura o modelo
-            model: String(this.modelo),
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: schema,
-                temperature: 0.2,
-                maxOutputTokens: 2048,
-            },
-        });
+        try {
+            return this.genAI.getGenerativeModel({ //Configura o modelo
+                model: String(this.modelo),
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: schema,
+                    temperature: 0.2,
+                    maxOutputTokens: 2048,
+                },
+            });
+        }
+        catch (erro: any) {
+            throw erro;
+        }
     }
     async gerar_revisao(codigo: string, nome_arquivo: string, linguagem: string, idioma: string) {
         try {
@@ -42,14 +47,14 @@ export class Gemini_Bot {
                 .replace('{{NOME_ARQUIVO}}', nome_arquivo)
                 .replace('{{CODIGO}}', codigo)
                 .replace('{{IDIOMA}}', idioma_instrucao);
-            const modelo = this.criar_modelo(dicionario_schemas[linguagem]);
-            const resultado = await modelo.generateContent(prompt_final);
-            return {
+                
+                const modelo = this.criar_modelo(dicionario_schemas[linguagem]);
+                const resultado = await modelo.generateContent(prompt_final);
+                return {
                 "revisao": JSON.parse(resultado.response.text()),
                 "idioma": idioma
-            };
+                };
         } catch (erro: any) {
-            mostrar_erro(erro);
             throw erro;
         }
     }

@@ -90,7 +90,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "429": "Daily limit reached!",
         "500": "Google server is unstable. Please try again later.",
         "Linguagem não reconhecida": "This language is not in our database.",
-        "Outro": "Error generating review!",
+        "Outros": "Error generating review!",
         "Nenhum arquivo aberto": "No open files at the moment!",
         "Modelo não reconhecido": "Error reading the model configuration!",
         "Fechar": "Close"
@@ -99,7 +99,7 @@ export const erros_possiveis: Record<string, Record<string, string>> = {
         "429": "Limite diário atingido!",
         "500": "O servidor do Google está instável. Tente novamente em breve.",
         "Linguagem não reconhecida": "Essa linguagem não está no nosso banco de dados",
-        "Outro": "Erro na geração de revisão!",
+        "Outros": "Erro na geração de revisão!",
         "Nenhum arquivo aberto": "Nenhum arquivo aberto atualmente!",
         "Modelo não reconhecido": "Erro na leitura do modelo!",
         "Fechar": "Fechar"

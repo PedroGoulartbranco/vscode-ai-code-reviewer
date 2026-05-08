@@ -47,5 +47,6 @@ export async function mostrar_erro(erro: any) {
     else {
         vscode.window.showErrorMessage(erros_possiveis[idioma]["Outros"], erros_possiveis[idioma]["Fechar"]);
         console.log(erro);
+        console.log("--------------------------------------------------");
     }
 }
